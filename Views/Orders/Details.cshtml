@@ -1,0 +1,134 @@
+﻿@model KhadimiEssa.Data.TableDb.Orders
+@using KhadimiEssa.Enums
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">تفاصيل الطلب</h2>
+
+</div>
+
+    <div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        رقم الطلب
+                    </label>
+                    <div class="form-control">
+                        @Model.Id
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        اسم المستخدم
+                    </label>
+                    <div class="form-control">
+                        @Model.User.user_Name
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        رقم جوال المستخدم
+                    </label>
+                    <div class="form-control">
+                        @Model.User.PhoneNumber
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        ماركة السيارة
+                    </label>
+                    <div class="form-control">
+                        @Model.CarBrand.NameAr
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        مكان التنفيذ
+                    </label>
+                    <div class="form-control">
+                        @Model.Location
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        الوقت
+                    </label>
+                    <div class="form-control">
+                        @Model.Availabletime.time.ToString("hh:mm tt")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        الباقة
+                    </label>
+                    <div class="form-control">
+                        @Model.Package.NameAr
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        نوع الدفع
+                    </label>
+                    <div class="form-control">
+                        @if (Model.TypePay == (int)AllEnums.type_pay.cash)
+                        {
+                            <span> كاش</span>
+                        }
+                        else if (Model.TypePay == (int)AllEnums.type_pay.online)
+                        {
+                            <span>اون لاين  </span>
+                        }
+                        else if (Model.TypePay == (int)AllEnums.type_pay.pocket)
+                        {
+                            <span>محفظة </span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        تاريخ الطلب
+                    </label>
+                    <div class="form-control">
+                        @Model.OrderDate.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        تاريخ تنفيذ الطلب
+                    </label>
+                    <div class="form-control">
+                        @Model.ExecutionDate.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div>
+        </div>
+        
+        <a asp-action="Index" class="btn-black">العودة الى الرئيسية</a>
+    </div>

@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\AL - ELMIA\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\AL - ELMIA\\.nuget\\packages"
+    ]
+  }
+}

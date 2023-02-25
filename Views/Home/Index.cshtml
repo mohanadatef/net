@@ -1,0 +1,327 @@
+﻿@model KhadimiEssa.ViewModels.HomeViewModel
+@using static KhadimiEssa.Enums.AllEnums
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="home_dash">
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box-dash box-admin">
+                <div>
+                    <h4>مرحبا , <a asp-area="Identity" asp-page="/Account/EditUser">Hello @User.Identity.Name!</a></h4>
+                    <h6>أهلاا بك في لوحة التحكم الخاصة بأوامر الشبكة</h6>
+                </div>
+                <span class="icon">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="box-dash box-dash-time">
+                <div>
+                    <h6 id="date">
+                        <span id="day">0</span> / <span id="month">0</span> / <span id="year">0</span>
+                    </h6>
+                    <h4 id="time">
+                        <span id="Seconds">0</span> : <span id="minutes">0</span> : <span id="hour">0</span>
+                    </h4>
+                </div>
+                <span class="icon">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+
+        @if (User.IsInRole(Roles.AdminBranch.ToString()) || User.IsInRole(Roles.Orders.ToString()))
+        {
+            <div class="col-md-3">
+
+                <a href="~/Orders/Index" class="box-dash box-dash2">
+
+                    <div>
+                        <h4>@Model.ordersCount</h4>
+                        <h6>عدد الطلبات</h6>
+                    </div>
+                    <span class="icon">
+                        <i class="fa fa-tags" aria-hidden="true"></i>
+                    </span>
+                </a>
+
+            </div>
+        }
+
+        @if (User.IsInRole(Roles.AdminBranch.ToString()) || User.IsInRole(Roles.ContactUs.ToString()))
+
+        {
+            <div class="col-md-3">
+
+                <a href="~/DContactUs/Index" class="box-dash box-dash2">
+
+                    <div>
+                        <h4>@Model.contactUsCount</h4>
+                        <h6>عدد الشكاوى</h6>
+                    </div>
+                    <span class="icon">
+                        <i class="fa fa-tags" aria-hidden="true"></i>
+                    </span>
+                </a>
+
+
+            </div>
+        }
+
+
+        @if (User.IsInRole(Roles.AdminBranch.ToString()) || User.IsInRole(Roles.Provider.ToString()))
+        {
+            <div class="col-md-3">
+
+                <a href="~/Provider/Index" class="box-dash box-dash2">
+
+                    <div>
+                        <h4>@Model.providersCount</h4>
+                        <h6>عدد مقدمين الخدمة</h6>
+                    </div>
+                    <span class="icon">
+                        <i class="fa fa-tags" aria-hidden="true"></i>
+                    </span>
+                </a>
+
+
+            </div>
+        }
+
+        @if (User.IsInRole(Roles.AdminBranch.ToString()) || User.IsInRole(Roles.Clients.ToString()))
+        {
+            <div class="col-md-3">
+
+                <a href="~/Clients/Index" class="box-dash box-dash2">
+
+                    <div>
+                        <h4>@Model.usersCount</h4>
+                        <h6>عدد العملاء</h6>
+                    </div>
+                    <span class="icon">
+                        <i class="fa fa-tags" aria-hidden="true"></i>
+                    </span>
+                </a>
+
+            </div>
+
+        }
+
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <canvas id="myChart2"></canvas>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <canvas id="myChart3"></canvas>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            "use strict";
+
+
+            function clock() {
+                var hr = document.getElementById("hour"),
+                    ms = document.getElementById("minutes"),
+                    ss = document.getElementById("Seconds"),
+                    da = document.getElementById("day"),
+                    ma = document.getElementById("month"),
+                    ye = document.getElementById("year"),
+                    theDate = new Date();
+
+                hr.innerHTML = theDate.getHours();
+                ms.innerHTML = theDate.getMinutes();
+                ss.innerHTML = theDate.getSeconds();
+
+                da.innerHTML = theDate.getDate();
+                ma.innerHTML = theDate.getMonth()+1;
+                ye.innerHTML = theDate.getFullYear();
+
+            }
+
+            setInterval(clock, 1000);
+
+        });
+    </script>
+
+    <script>
+
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    labels: {
+                        fontColor: '#FFFFFF'
+                    }
+                },
+                title: {
+                    display: false,
+                    fontColor: '#FFFFFF',
+                    text: 'Custom Chart Title'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: '#FFFFFF'
+                        },
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: '#FFFFFF'
+                        },
+                    }]
+                }
+            }
+        });
+    </script>
+
+    <script>
+
+        var ctx = document.getElementById('myChart2');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    labels: {
+                        fontColor: '#FFFFFF'
+                    }
+                },
+                title: {
+                    display: false,
+                    fontColor: '#FFFFFF',
+                    text: 'Custom Chart Title'
+                }
+            }
+        });
+    </script>
+
+    <script>
+
+        var ctx = document.getElementById('myChart3');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [65, 59, 80],
+                    borderColor: [
+                        'rgb(75, 192, 192)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    labels: {
+                        fontColor: '#FFFFFF'
+                    }
+                },
+                title: {
+                    display: false,
+                    fontColor: '#FFFFFF',
+                    text: 'Custom Chart Title'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: '#FFFFFF'
+                        },
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: '#FFFFFF'
+                        },
+                    }]
+                }
+            }
+        });
+    </script>
+
+}

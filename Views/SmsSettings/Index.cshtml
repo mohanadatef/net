@@ -1,0 +1,162 @@
+﻿@model KhadimiEssa.ViewModels.SmsSettingModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<style>
+    .common, .different, .btn-submit {
+        display: none;
+    }
+
+        .btn-submit:hover {
+            cursor: pointer;
+        }
+</style>
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اعدادات خدمة الرسائل</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+
+
+
+
+            <form enctype="multipart/form-data" asp-action="EditSmsSetting" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" id="ViewBagSmsProvider" value="@ViewBag.SmsProvider" />
+
+                <div class="row">
+                    <select asp-for="SmsProvider" id="select-sms-provider" class="form-control">
+                        <option value="0">اختر مزود خدمة الرسائل</option>
+                        <option data-count="4" data-provider="jawaly" value="4jawaly">4jawaly</option>
+                        <option data-count="3" data-provider="ElYamam" value="ElYamam">ElYamam</option>
+                        <option data-count="4" data-provider="Mobily" value="Mobily">Mobily</option>
+                    </select>
+                </div>
+
+
+                <div class="common">
+                    <div class="form-group">
+                        <label asp-for="UserNameSms" class="control-label">اسم المستخدم للرسائل (UserNameSms)</label>
+                        <textarea asp-for="UserNameSms" class="form-control"></textarea>
+                        <span asp-validation-for="UserNameSms" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PasswordSms" class="control-label">كلمة المرور للرسائل (PasswordSms)</label>
+                        <textarea asp-for="PasswordSms" class="form-control"></textarea>
+                        <span asp-validation-for="PasswordSms" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="different Mobily jawaly">
+                    <div class="form-group">
+                        <label asp-for="SenderName" class="control-label">اسم المرسل للرسائل (SenderName)</label>
+                        <textarea asp-for="SenderName" class="form-control"></textarea>
+                        <span asp-validation-for="SenderName" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group" style="margin:auto">
+                    <input type="button" value="تفعيل" class="btn-new-style btn-rounded btn-submit" />
+                </div>
+
+                <div>
+                    <a asp-action="Index" asp-controller="Home" class="btn-black btn-back">العودة الى الرئيسية</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+
+        (function () {
+
+            var viewBagSmsProvider = $("#ViewBagSmsProvider").val();
+
+             
+            if (viewBagSmsProvider != '') {
+                $("#select-sms-provider").val(viewBagSmsProvider);
+                changeSmsProvider();
+                $("#select-sms-provider").attr('disabled', 'disabled');
+            }
+        })();
+
+
+        function changeSmsProvider() {
+
+
+            var smsProvider = $("#select-sms-provider").children("option:selected").data("provider");
+
+            if (smsProvider == "jawaly") {
+                $("label[for='UserNameSms']").text("اسم المستخدم للرسائل (UserNameSms)");
+                $(".different, .common").show();
+                $(".btn-submit").show().css('display', 'block');
+            }
+            else if (smsProvider == "Mobily") {
+                $("label[for='UserNameSms']").text(" رقم الراسل (ownerPhone)");
+
+                $(".different, .common").show();
+                $(".btn-submit").show().css('display', 'block');
+            }
+
+            else if (smsProvider == "ElYamam") {
+                $("label[for='UserNameSms']").text("اسم المستخدم للرسائل (UserNameSms)");
+                $(".common").show();
+
+                $(".btn-submit").show().css('display', 'block');
+
+                $(".different").hide();
+            }
+
+        }
+
+
+
+        $("#select-sms-provider").change(changeSmsProvider);
+
+        $(".btn-submit").click(function () {
+
+            var userName = $("#UserNameSms").val();
+            var passwordSms = $("#PasswordSms").val();
+            var senderName = $("#SenderName").val();
+            var selectSmsProvider = $("#select-sms-provider").val();
+
+
+            console.log(selectSmsProvider);
+
+            if (selectSmsProvider == 0) {
+                toastr.error('من فضلك اختر مزود خدمة الرسائل');
+                return false;
+            }
+            if (userName == '') {
+                toastr.error('من فضلك ادخل اسم المستخدم/رقم الراسل للرسائل');
+                return false;
+            }
+            if (passwordSms == '') {
+                toastr.error('من فضلك ادخل كلمة المرور للرسائل');
+                return false;
+            }
+
+
+            if (senderName == '' && selectSmsProvider != 'ElYamam') {
+                toastr.error('من فضلك ادخل اسم المرسل للرسائل');
+                return false;
+            }
+
+            $(this).attr('type', 'submit');
+        });
+
+    </script>
+
+}

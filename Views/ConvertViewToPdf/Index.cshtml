@@ -1,0 +1,37 @@
+﻿@model KhadimiEssa.Models.ConvertToPdf.InvoiceViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<table >
+    <thead>
+
+        <tr>
+            <th>
+                العنوان
+
+            </th>
+            <th>
+                الوصف
+
+            </th>
+            @*<th></th>*@
+        </tr>
+
+
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>
+                @Model.Title
+            </td>
+            <td>
+                @Model.Description
+
+            </td>
+            @*<td><input type="text" name="text" oninput="this.value=this.value.replace(/[^A-Za-z\s]/g,'');"></td>*@
+        </tr>
+    </tbody>
+</table>

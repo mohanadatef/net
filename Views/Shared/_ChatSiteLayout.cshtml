@@ -1,0 +1,227 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore;
+@using System.Security.Claims
+
+<!doctype html>
+<html lang="ar">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title> @ViewData["Title"] </title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/ChatSite/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/ChatSite/css/all.min.css">
+    <link rel="stylesheet" href="~/ChatSite/css/animate.css">
+
+    <!-- plugins CSS -->
+    <link rel="stylesheet" href="~/ChatSite/plugins/owl-carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/ChatSite/plugins/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="~/ChatSite/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/ChatSite/plugins/datepicker/css/datepicker.css">
+
+    <link href="~/toastr.js/toastr.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery.fancybox.min.css" rel="stylesheet" />
+    <!-- my CSS -->
+    <link rel="stylesheet" href="~/ChatSite/css/style.css">
+    <!--<link rel="stylesheet" href="~/ChatSite/css/style-ltr.css">-->
+
+    <title></title>
+
+    <!-- title logo -->
+    <link rel="icon" href="~/images/logo.png" type="image/x-icon" />
+</head>
+
+<body>
+
+    <header>
+
+        @*<div class="top_header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">
+                        <a href="#"><span>EN</span> <img src="~/ChatSite/imgs/united-states-of-america%20(1).png" class="padd-5"></a>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex justify-content-end">
+                            <ul class="d-flex social_media">
+                                <span><a href=""><i class="fab fa-whatsapp"></i></a></span>
+                                <span><a href=""><i class="fab fa-instagram"></i></a></span>
+                                <span><a href=""><i class="fab fa-twitter"></i></a></span>
+                                <span><a href=""><i class="fas fa-envelope"></i></a></span>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="heade_nav container">
+
+            <a href="@Url.Action("Index","Home")"><img src="~/images/logo.png" class="the_logo"></a>
+
+
+
+
+            <ul class="nav">
+                <li><a href="@Url.Action("Index","Home")">الرئيسية</a></li>
+                @*<li><a href="@Url.Action("AboutUs","Site")">من نحن</a></li>
+                <li><a href="@Url.Action("ContactUs","Site")">اتصل بنا</a></li>*@
+            </ul>
+
+            @*<div class="info_h_nav d-flex align-items-center">
+
+
+                <div class="dropdown">
+                    <a class="btn dropdown-toggle btn-main" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        الملف الشخصي
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="@Url.Action("Users", "Chat")"><i class="fas fa-comments"></i> المحادثات</a>
+                    </div>
+                </div>
+
+                <div class="close-open-nav">
+                    <div>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+            </div>*@
+        </div>
+    </header>
+
+
+    <!-- Start body-content -->
+    @RenderBody()
+
+    @*<footer class="white-color">
+
+        <div class="top_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="info_footer">
+                            <img src="~/ChatSite/imgs/logo_footer.png">
+                            <p>
+                               
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="link_footer">
+                            <h6>حسابي</h6>
+                            <ul>
+                                <li><a href="@Url.Action("Profile","Site")"> حسابى </a></li>
+                                <li><a href="@Url.Action("Orders","Site")"> طلباتى </a></li>
+                                <li><a href="@Url.Action("ContactUs","Site")"> اتصل بنا </a></li>
+                                <li><a href="@Url.Action("AboutUs","Site")"> من نحن </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="link_footer">
+                            <h6>الاقسام</h6>
+                            <ul>
+                               
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+
+                        <div class="link_footer">
+                            <h6>معلومات الشركه</h6>
+                            <ul>
+                                <li><i class="fas fa-map-marker-alt"></i> <span class="padd-5"></span></li>
+                                <li><i class="fas fa-phone-alt"></i> <span class="padd-5"></span></li>
+                                <li><i class="fas fa-envelope"></i> <span class="padd-5"></span></li>
+                            </ul>
+
+                            <div class="social_media">
+                                <span><a href=""><i class="fab fa-instagram"></i></a></span>
+                                <span><a href=""><i class="fab fa-twitter"></i></a></span>
+                                <span><a href=""><i class="fab fa-facebook-f"></i></a></span>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="unde_footer f-b">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-6">
+
+                        <div>جميع الحقوق محفوظة لشركة <a href="@Url.Action("Index","Site")">بنفسج</a></div>
+
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+
+                        <div>تصميم وبرمجة مؤسسة <a href="https://aait.sa/">اوامر الشبكة</a></div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </footer>*@
+
+    <!--========================== Start Loading Page ======================-->
+
+    <div class="loader">
+        <img src="~/images/logo.png">
+    </div>
+
+    <!--========================= End Loading Page =========================-->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/ChatSite/js/jquery-3.2.1.min.js"></script>
+    <script src="~/ChatSite/js/popper.min.js"></script>
+    <script src="~/ChatSite/js/bootstrap.min.js"></script>
+    <script src="~/ChatSite/js/wow.min.js"></script>
+
+    <!-- plugins JS -->
+    <script src="~/ChatSite/plugins/owl-carousel/js/owl.carousel.min.js"></script>
+    <script src="~/ChatSite/plugins/nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/ChatSite/plugins/select2/js/select2.min.js"></script>
+    <script src="~/ChatSite/plugins/datepicker/js/moments.js"></script>
+    <script src="~/ChatSite/plugins/datepicker/js/datepicker.js"></script>
+
+
+
+    <!-- my JS -->
+
+
+
+    <script src="~/ChatSite/js/main.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/toastr.js/toastr.min.js"></script>
+    <script src="~/assets/js/jquery.fancybox.min.js"></script>
+    @RenderSection("scripts", required: false)
+
+<script>
+    if ("@ViewBag.alertMsg" != "") {
+        toastr.success("@ViewBag.alertMsg");
+    }
+</script>
+
+</body>
+
+</html>
+
+

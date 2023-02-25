@@ -1,0 +1,87 @@
+﻿@model KhadimiEssa.Data.TableDb.Payment
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اضافة اعدادات دفع</h2>
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="ViMaEntityId" class="control-label"></label>
+                    <input asp-for="ViMaEntityId" class="form-control" />
+                    <span asp-validation-for="ViMaEntityId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MadaEntityId" class="control-label"></label>
+                    <input asp-for="MadaEntityId" class="form-control" />
+                    <span asp-validation-for="MadaEntityId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LiveAccessToken" class="control-label"></label>
+                    <input asp-for="LiveAccessToken" class="form-control" />
+                    <span asp-validation-for="LiveAccessToken" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TestAccessToken" class="control-label"></label>
+                    <input asp-for="TestAccessToken" class="form-control" />
+                    <span asp-validation-for="TestAccessToken" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PaymentType" class="control-label"></label>
+                    <input asp-for="PaymentType" class="form-control" />
+                    <span asp-validation-for="PaymentType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Currency" class="control-label"></label>
+                    <input asp-for="Currency" class="form-control" />
+                    <span asp-validation-for="Currency" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsLive" /> @Html.DisplayNameFor(model => model.IsLive)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsMada" /> @Html.DisplayNameFor(model => model.IsMada)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LiveCheckoutUrl" class="control-label"></label>
+                    <input asp-for="LiveCheckoutUrl" class="form-control" />
+                    <span asp-validation-for="LiveCheckoutUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TestCheckoutUrl" class="control-label"></label>
+                    <input asp-for="TestCheckoutUrl" class="form-control" />
+                    <span asp-validation-for="TestCheckoutUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="حفظ" class="btn-new-style btn-rounded" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div>
+                        <a asp-action="Index" class="btn-black">العودة الى الرئيسية</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,245 @@
+﻿@using System.Security.Claims
+@using KhadimiEssa.Data
+@using Microsoft.AspNetCore.Http
+@using KhadimiEssa.Services
+
+@inject IIntroSettingServices _setting
+
+@{   
+    var Setting =await _setting.GetSetting("ar");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Introassets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Introassets/css/animate.css">
+    <link rel="stylesheet" href="~/Introassets/css/all.min.css">
+    <link rel="stylesheet" href="~/Introassets/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/Introassets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Introassets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Introassets/css/style.css">
+    <!-- <link rel="stylesheet" href="~/Introassets/css/styleEn.css"> -->
+    <title>اسم التطبيق </title>
+</head>
+<body>
+    <div class="navbar-layer d-lg-none d-block"></div>
+
+    <div class="nav-list respon">
+        <div class="logodiv respon">
+            <a href="index.html">
+                <img src="~/Introassets/images/@Setting.Logo">
+            </a>
+        </div>
+        <ul class="navBar respon">
+            <li><a href="index.html">الرئيسيه</a></li>
+            <li class="about"><a>من نحن</a></li>
+            <li class="how"><a>مميزاتنا</a></li>
+            <li class="slider"><a>صفحات التطبيق</a></li>
+            <li class="contact"><a>تواصل معنا</a></li>
+            <li class="contact"><a>انضم لمندوبينا</a></li>
+        </ul>
+    </div>
+
+    <section id="header" class="header">
+        <div id="fixedHead">
+            <div class="container">
+                <div class="top-head">
+                    <div class="logodiv">
+                        <a href="index.html">
+                            <img src="~/Introassets/images/@Setting.Logo">
+                        </a>
+                    </div>
+                    <div class="bars d-lg-none d-block mb-2 ml-3 mr-3">
+                        <span class="bar-1"></span>
+                        <span class="bar-2"></span>
+                        <span class="bar-3"></span>
+                    </div>
+                    <div class="nav-list">
+                        <div class="container">
+                            <ul class="navBar">
+                                <li><a href="~/IntroSite">الرئيسية</a></li>
+                                <li class="about"><a>من نحن</a></li>
+                                <li class="how"><a>مميزاتنا</a></li>
+                                <li class="slider"><a>صفحات التطبيق</a></li>
+                                <li class="contact"><a>تواصل معنا</a></li>
+                                @*<li class="lastitem contact"><a>انضم لمندوبينا</a></li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex align-items-center bottomH">
+            <div class="head-wellcom wow fadeIn">
+                <h2>@Setting.Intro</h2>
+                <p class="w-75">@Setting.Description</p>
+                <div class="appLink">
+                    <a href="@Setting.GooglePlayUrl">
+                        <img src="~/Introassets/images/android.png" alt="">
+                    </a>
+                    <a href="@Setting.AppleStoreUrl">
+                        <img src="~/Introassets/images/apple.png" alt="">
+                    </a>
+                </div>
+
+            </div>
+            <div class="headImg wow fadeIn">
+                <img style="z-index: 2;position: absolute;" src="~/Introassets/images/@Setting.IntroImg1">
+                <img class="floatimg" src="~/Introassets/images/@Setting.IntroImg2">
+            </div>
+        </div>
+    </section>
+
+
+
+    @RenderBody()
+
+    <footer class="arselfooter">
+        <div class="container overflow-hidden">
+            <div class="row wow fadeInDown">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="footer-item">
+                        <a href="index.html">
+                            <img src="~/Introassets/images/@Setting.Logo" alt="">
+                        </a>
+                        <p>@Setting.FooterDescription</p>
+                        <ul class="social p-0">
+                            <li>
+                                <a href="@Setting.GooglePlayUrl">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Setting.AppleStoreUrl">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Setting.Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Setting.FaceBook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="footer-item">
+                        <h4>روبط سريعة</h4>
+                        <ul class="p-0">
+                            <li class=""><a href="index.html" aria-current="page">الرئيسية</a></li>
+                            <li class=""><a class="about" href="#about">من نحن</a></li>
+                            <li class=""><a class="how" href="#how">مميزاتنا</a></li>
+                            <li class=""><a class="slider" href="#slider">صفحات التطبيق</a></li>
+                            <li class=""><a class="contact" href="#contact">تواصل معنا</a></li>
+                            <li class=""><a class="contact" href="#contact">انضم لمندوبينا</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="footer-item">
+                        <h4>تواصل معنا </h4>
+                        <ul class="p-0">
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span> @Setting.Address</span>
+                            </li>
+                            <li>
+                                <a href="tel:">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+ @Setting.Phone</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailTo:">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>@Setting.Email</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img class="maskfooter" src="~/Introassets/images/footermask.png" alt="">
+        <div class="footer-bottom overflow-hidden">
+            <div class="container wow fadeInDown">
+                <p>تصميم وبرمجة - أوامر الشبكة لتقنيه المعلومات</p>
+                <img src="~/Introassets/images/download-252x111.png" alt="">
+                <ul>
+                    <li>
+                        <a href="~/IntroSite/Policy">
+                            سياسة الخصوصية
+                        </a>
+                    </li>
+                    <li>-</li>
+                    <li>
+                        <a href="~/IntroSite/Conditions">
+                            شروط الاستخدام
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Introassets/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Introassets/js/popper.min.js"></script>
+    <script src="~/Introassets/js/bootstrap.min.js"></script>
+    <script src="~/Introassets/js/wow.min.js"></script>
+    <script src="~/Introassets/js/owl.carousel.min.js"></script>
+    <script src="~/Introassets/js/jquery.fancybox.min.js"></script>
+    <script src="~/Introassets/js/main.js"></script>
+    <script type="text/javascript">new WOW().init();</script>
+    <script>
+        $('.owl-carousel.firstcarousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            rtl: true,
+            center: true,
+            autoplay: true,
+            animateOut: 'fadeOut',
+            smartSpeed: 1000,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        })
+
+        $('.owl-carousel.secondcarousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            rtl: true,
+            center: true,
+            autoplay: true,
+            animateOut: 'fadeOut',
+            smartSpeed: 1000,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        })
+    </script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

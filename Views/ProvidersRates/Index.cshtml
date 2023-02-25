@@ -1,0 +1,112 @@
+﻿@model IEnumerable<KhadimiEssa.ViewModels.RateViewModel>
+@{
+    ViewData["Title"] = "تقييمات مقدمى الخدمات";
+}
+
+
+<style>
+    .checked {
+        color: orange;
+    }
+
+</style>
+
+
+<div class="card-box">
+    @*<h4 class="header-title m-t-0 m-b-30"></h4>*@
+    <h2 class="header-title m-t-0 m-b-30">تقييمات مقدمى الخدمة</h2>
+    <div>
+
+        <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <label>
+                    تاريخ البداية
+                </label>
+                <input type="date" id="date_from" name="date_from" class="form-control" value="@ViewBag.dateFrom" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>
+                    تاريخ النهاية
+                </label>
+                <input type="date" id="date_to" name="date_to" class="form-control" value="@ViewBag.dateTo" />
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <a class="btn-new-style " style="cursor:pointer" onclick="location.assign('../../ProvidersRates/Index?FromDate=' + $('#date_from').val() + '&ToDate=' + $('#date_to').val());">عرض النتيجة</a>
+            </div>
+        </div>
+    </div>
+        
+        <!-- -------------------------------------------------------------------------------------------------- -->
+        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        مقدم الخدمة
+                    </th>
+                    <th>
+                        العميل
+                    </th>
+                    <th>
+                        التاريخ
+                    </th>
+                    <th>
+                        رقم الطلب
+                    </th>
+                    <th>التقييم</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FkDelegetName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FkUserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderId)
+                    </td>
+                    <td>
+                        @for (var i = 1; i < 6; i++)
+                            {
+                                if (i <= item.Rate)
+                                {
+                                    <span class="fa fa-star checked star"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-star star"></span>
+                                }
+                            }
+                    </td>
+
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- -------------------------------------------------------------------------------------------------- -->
+    </div><!-- end row -->
+</div>
+
+@section scripts{
+    <script>
+
+        
+    </script>
+}
+

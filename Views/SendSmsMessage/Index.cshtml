@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "الاشعارات";
+    Layout = "_Layout";
+}
+
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30"> الرسائل</h2>
+
+    <!-- -------------------------------------------------------------------------------------------------- -->
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <div>
+                        <label style="display:block"> الكل</label>
+                        <input type="checkbox" id="allEmployees" />
+                    </div>
+                </div>
+
+                <div class="col-sm-10">
+                    <div id="employee_div">
+                        <label>
+                            العملاء
+                        </label>
+                        <select class="select-2 form-control" id="multipleEmployeeSelect" multiple="multiple"></select>
+                    </div>
+                    </div>
+
+                </div>
+
+
+
+        <div class="form-group">
+            <label>
+                نص الرسالة
+            </label>
+            <textarea class="form-control" id="smsMessage" placeholder="اكتب النص هنا" required></textarea>
+        </div>
+
+   
+        <button class=" btn-black btn-rounded w-md waves-effect waves-light m-b-5" id="send" onclick="Send();"> ارسال  </button>
+
+
+    <!-- -------------------------------------------------------------------------------------------------- -->
+
+
+</div>
+
+
+
+<style>
+    .select2-container--default .select2-selection--multiple {
+        background-color: #b2a5a5;
+        border: 1px solid #aaa;
+        border-radius: 25px;
+        cursor: text;
+        padding: 4px;
+        border: 1px solid #f5f5f5 !important;
+    }
+</style>
+
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+
+            $(".row").on('blur keyup change click',
+                function () {
+
+                    var value = $("#notifyMessage").val();
+
+                    //console.log(value);
+                    //if ((allProviders.length > 0 || allEmployees.length > 0)) {
+                    //    toastr.warning('من فضلك ادخل بيانات الاشعار');
+                    //    return false;
+                    //}
+                });
+
+
+            //الكل
+
+            $.ajax({
+                url: "/SendSmsMessage/GetUsers",
+                type: "GET",
+                dataType: "json",
+
+                success: function (data) {
+
+                    var list = '';
+
+                    for (var i = 0; i < data.users.length; i++) {
+                        var option = '<option value="' +
+                            data.users[i].phoneNumber +
+                            '">' +
+                            data.users[i].name +
+                            '</option>';
+                        list += option;
+                    };
+
+                    $('#multipleEmployeeSelect').append(list);
+                }
+            });
+
+
+            var selectedEmployees = [];
+
+            $('#multipleEmployeeSelect').change(function () {
+                allEmployees = $("#multipleEmployeeSelect").val();
+
+                if (!$("#multipleEmployeeSelect").val()) {
+                    $("#allEmployees").attr("disabled", false);
+                    allEmployees = "";
+                }
+
+            });
+
+
+            var allEmployees = [];
+
+
+            $("#allEmployees").on("click", function () {
+                if ($(this).is(':checked')) {
+
+
+                    $("#multipleEmployeeSelect > option").prop("selected", true);
+                    $("#multipleEmployeeSelect").trigger("change");
+
+                    $("#multipleEmployeeSelect > option:selected").each(function () {
+                        allEmployees.push($(this).val());
+                    });
+                    $("#multipleEmployeeSelect").attr('disabled', true);
+
+                    $("#allClients").attr("disabled", true);
+                    $("#allJournalists").attr("disabled", true);
+                    $("#allAdmins").attr("disabled", true);
+
+
+
+                } else {
+                    $("#multipleEmployeeSelect > option").prop("selected", false);
+                    $("#multipleEmployeeSelect").trigger("change");
+
+                    $("#multipleEmployeeSelect > option:selected").each(function () {
+                        allEmployees.pop($(this).val());
+                    });
+                    $("#multipleEmployeeSelect").attr('disabled', false);
+
+                    $("#allClients").attr("disabled", false);
+                    $("#allJournalists").attr("disabled", false);
+                    $("#allAdmins").attr("disabled", false);
+
+                }
+
+            });
+
+        })
+
+        function Send() {
+            debugger;
+            if ($("#smsMessage").val() == "") {
+                toastr.warning('من فضلك ادخل النص');
+                $("#smsMessage").focus();
+                return false;
+            }
+
+
+
+            var employeesData = [];
+
+            $("#multipleEmployeeSelect > option:selected").each(function () {
+                debugger;
+                employeesData.push($(this).val());
+            });
+
+            var textMessage = $("#smsMessage").val();
+
+            Swal.fire({
+                position: 'success',
+                type: 'success',
+                title: 'تم الارسال بنجاح..',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $.ajax({
+                url: "/SendSmsMessage/Send",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    smsMsg: textMessage,
+                    employees: employeesData.join(',')
+                },
+                success: function (result) {
+                    $("#send").prop("disabled", true);
+
+                }
+            });
+
+            location.reload();
+
+            //$.ajax({
+            //    url: "",
+            //    context: document.body,
+            //    success: function (s, x) {
+            //        $(this).html(s);
+            //    }
+            //});
+        }
+
+    </script>
+
+}
+

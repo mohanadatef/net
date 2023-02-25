@@ -1,0 +1,90 @@
+﻿@model IEnumerable<KhadimiEssa.Data.TableDb.AvailableTime>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card-box">
+    @*<h4 class="header-title m-t-0 m-b-30" style="text-align:center"></h4>*@
+
+    <h2 class="header-title m-t-0 m-b-30">الاوقات المتاحة </h2>
+
+    <div>
+        <p>
+            @Html.ActionLink("اضافة", "Create", "AvailableTimes", null, new { @class = "btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5" })
+        </p>
+        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead style="text-align:center">
+                <tr>
+                    <th>الوقت</th>
+                    <th> الحالة </th>
+                    <th>تغيير الحالة </th>
+                    <th>تعديل </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.time.ToString("hh:mm tt")
+                        </td>
+                        <td>
+                            @{
+                                if (item.IsActive == true)
+                                {
+                                    <label id="@item.Id" style="color:green;font-size: 17px;">مفعل</label>
+                                }
+                                else
+                                {
+                                    <label id="@item.Id" style="color:red;font-size: 17px;">غير مفعل</label>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <input type="button" value="تغيير الحالة" onclick="ChangeStatus(@item.Id)" class="btn btn-purple btn-rounded" />
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("تعديل", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-rounded" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- -------------------------------------------------------------------------------------------------- -->
+    </div><!-- end row -->
+</div>
+
+@section scripts{
+
+    <script>
+
+        function ChangeStatus(id) {
+            $.ajax({
+                url: "/AvailableTimes/ChangeState",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+
+                    if (result.data == true) {
+                        $('#' + id).css('color', 'green');
+                        $('#' + id).html('مفعل');
+                    } else if (result.data == false) {
+                        $('#' + id).css('color', 'red');
+                        $('#' + id).html('غير مفعل');
+
+                    }
+                },
+                failure: function (info) {
+
+                }
+            });
+        }
+
+    </script>
+}

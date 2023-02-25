@@ -1,0 +1,174 @@
+﻿@model KhadimiEssa.Data.TableDb.IntroductorySite.IntroSetting
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-box" style="padding: 80px 20px 40px;">
+
+    <h2 class="header-title m-t-0 m-b-30" style="text-align:center">تعديل</h2>
+    <form enctype="multipart/form-data" asp-action="Edit" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="LogoImg" class="control-label">صورة الشعار القديمة</label>
+                <img src="@Model.LogoImg" style="width: 100px ; height:100px; " />
+            </div>
+            <div class="form-group">
+                <label for="LogoImgFormFile" class="control-label">  تعديل صورة التصنيف  </label>
+                <input id="LogoImgFormFile" name="LogoImgFormFile" type="file" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IntroAr" class="control-label">المقدمة بالعربية</label>
+            <input asp-for="IntroAr" class="form-control" />
+            <span asp-validation-for="IntroAr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IntroEn" class="control-label">المقدمة بالانجليزية</label>
+            <input asp-for="IntroEn" class="form-control" />
+            <span asp-validation-for="IntroEn" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DescriptionAr" class="control-label">الوصف بالعربية</label>
+            <input asp-for="DescriptionAr" class="form-control" />
+            <span asp-validation-for="DescriptionAr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DescriptionEn" class="control-label">الوصف بالانجليزية</label>
+            <input asp-for="DescriptionEn" class="form-control" />
+            <span asp-validation-for="DescriptionEn" class="text-danger"></span>
+        </div>
+        @*<div class="form-group">
+            <label asp-for="Img" class="control-label">الصورة القديمة</label>
+            <input asp-for="Img" class="form-control" />
+            <span asp-validation-for="Img" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="GooglePlayUrl" class="control-label">رابط التطبيق فى جوجل</label>
+            <input asp-for="GooglePlayUrl" class="form-control" />
+            <span asp-validation-for="GooglePlayUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AppleStoreUrl" class="control-label">رابط التطبيق فى آبل</label>
+            <input asp-for="AppleStoreUrl" class="form-control" />
+            <span asp-validation-for="AppleStoreUrl" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="IntroImg1" class="control-label">صورة الشعار القديمة</label>
+                <img src="@Model.IntroImg1" style="width: 100px ; height:100px; " />
+            </div>
+            <div class="form-group">
+                <label for="IntroImg1FormFile" class="control-label">  تعديل صورة التصنيف  </label>
+                <input id="IntroImg1FormFile" name="IntroImg1FormFile" type="file" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="IntroImg2" class="control-label">صورة الشعار القديمة</label>
+                <img src="@Model.IntroImg2" style="width: 100px ; height:100px; " />
+            </div>
+            <div class="form-group">
+                <label for="IntroImg2FormFile" class="control-label">  تعديل صورة التصنيف  </label>
+                <input id="IntroImg2FormFile" name="IntroImg2FormFile" type="file" class="form-control" />
+            </div>
+        </div>
+        @*<div class="form-group">
+            <label asp-for="AboutAppAr" class="control-label">عن التطبيق بالعربية</label>
+            <input asp-for="AboutAppAr" class="form-control" />
+            <span asp-validation-for="AboutAppAr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AboutAppEn" class="control-label"></label>
+            <input asp-for="AboutAppEn" class="form-control" />
+            <span asp-validation-for="AboutAppEn" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="AboutDescrioptionAr" class="control-label">الوصف الخاص بالتطبيق بالعربية</label>
+            <input asp-for="AboutDescrioptionAr" class="form-control" />
+            <span asp-validation-for="AboutDescrioptionAr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AboutDescrioptionEn" class="control-label">الوصف الخاص بالتطبيق بالانجليزية</label>
+            <input asp-for="AboutDescrioptionEn" class="form-control" />
+            <span asp-validation-for="AboutDescrioptionEn" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="AboutAppImg" class="control-label">صورة الشعار القديمة</label>
+                <img src="@Model.AboutAppImg" style="width: 100px ; height:100px; " />
+            </div>
+            <div class="form-group">
+                <label for="AboutAppImgFormFile" class="control-label">  تعديل صورة التصنيف  </label>
+                <input id="AboutAppImgFormFile" name="AboutAppImgFormFile" type="file" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="VideoUrl" class="control-label">صورة الشعار القديمة</label>
+                <img src="@Model.VideoUrl" style="width: 100px ; height:100px; " />
+            </div>
+            <div class="form-group">
+                <label for="VideoUrlFormFile" class="control-label">  تعديل صورة التصنيف  </label>
+                <input id="VideoUrlFormFile" name="VideoUrlFormFile" type="file" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FooterDescriptionAr" class="control-label">الوصف فى الفوتر بالعربية</label>
+            <input asp-for="FooterDescriptionAr" class="form-control" />
+            <span asp-validation-for="FooterDescriptionAr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FooterDescriptionEn" class="control-label">الوصف فى الفوتر بالانجليزية</label>
+            <input asp-for="FooterDescriptionEn" class="form-control" />
+            <span asp-validation-for="FooterDescriptionEn" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label">العنوان</label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Phone" class="control-label">رقم الهاتف</label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">الميل</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FaceBook" class="control-label">الفيس بوك</label>
+            <input asp-for="FaceBook" class="form-control" />
+            <span asp-validation-for="FaceBook" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Twitter" class="control-label">تويتر</label>
+            <input asp-for="Twitter" class="form-control" />
+            <span asp-validation-for="Twitter" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Instagram" class="control-label">انستجرام</label>
+            <input asp-for="Instagram" class="form-control" />
+            <span asp-validation-for="Instagram" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Gmail" class="control-label">الجميل</label>
+            <input asp-for="Gmail" class="form-control" />
+            <span asp-validation-for="Gmail" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="حفظ" class="btn-new-style btn-rounded" />
+            </div>
+        </div>
+    </form>
+
+
+</div>

@@ -1,0 +1,204 @@
+﻿@model IEnumerable<KhadimiEssa.Data.TableDb.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ViMaEntityId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MadaEntityId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LiveAccessToken)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TestAccessToken)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaymentType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Currency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsLive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsMada)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LiveCheckoutUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TestCheckoutUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th>Payment demo</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViMaEntityId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MadaEntityId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LiveAccessToken)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TestAccessToken)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Currency)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsLive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsMada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LiveCheckoutUrl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TestCheckoutUrl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.user_Name)
+                    </td>
+                    <td>
+                        <a asp-action="PayRequest" asp-route-paymentId="@item.Id">Try</a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اعدادات الدفع</h2>
+    <h4 class="m-t-0 text-center">فيديو شرح طريقة الدفع </h4>
+    <h5 style="text-align:center">https://drive.google.com/file/d/1bsqTeKPuS1do-Ii4-iZCc5Oo-V6wYTkz/view</h5>
+    <div>
+        <p>
+            @Html.ActionLink("اضافة اعدادات دفع", "Create", "Payments", null, new { @class = "btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5" })
+        </p>
+        <!-- -------------------------------------------------------------------------------------------------- -->
+        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ViMaEntityId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MadaEntityId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LiveAccessToken)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TestAccessToken)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaymentType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Currency)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsLive)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsMada)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LiveCheckoutUrl)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TestCheckoutUrl)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.User)
+                    </th>
+                    <th>Payment demo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody style="text-align:center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ViMaEntityId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MadaEntityId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LiveAccessToken)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TestAccessToken)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Currency)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsLive)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsMada)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LiveCheckoutUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TestCheckoutUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.user_Name)
+                        </td>
+                        <td>
+                            <a asp-action="PayRequest" asp-route-paymentId="@item.Id" class="btn btn-purple btn-rounded">Try</a>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-purple btn-rounded">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-purple btn-rounded">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- -------------------------------------------------------------------------------------------------- -->
+    </div><!-- end row -->
+</div>

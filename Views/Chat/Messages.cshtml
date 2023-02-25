@@ -1,0 +1,676 @@
+﻿@model IEnumerable<KhadimiEssa.Models.ChatModels.SiteMessagesViewModel>
+
+@{
+    Layout = "/Views/Shared/_ChatSiteLayout.cshtml";
+    ViewData["Title"] = "Messages";
+}
+
+<div class="body-content">
+
+    <div class="the_baner">
+        <img src="~/ChatSite/imgs/paner.jpg">
+        <h5>تفاصيل المحادثة طلب رقم @Model.FirstOrDefault().orderNumber</h5>
+    </div>
+
+
+    <div class="sec-marg">
+
+        <div class="container">
+
+            <div class="body_chat p-15">
+
+                <div class="chat-content over_scroll_chat height_chat">
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.sender)
+                        {
+                            <div class="sent_chat content_sent">
+                                <img src="@item.senderImg">
+                                <div class="sent">
+                                    @if (item.type == (int)KhadimiEssa.Enums.AllEnums.FileTypeChat.img)
+                                    {
+                                        @*<p> <img src="@item.message" /> </p>*@
+                                        <p><a data-fancybox="gallery" href="@item.message"><img src="@item.message"></a></p>
+
+                                    }
+                                    else if (item.type == (int)KhadimiEssa.Enums.AllEnums.FileTypeChat.audio)
+                                    {
+                                        <p>
+                                            <audio controls>
+                                                <source src="@item.message" type="audio/ogg">
+                                                <source src="@item.message" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </p>
+                                    }
+                                    else if (item.type == (int)KhadimiEssa.Enums.AllEnums.FileTypeChat.file)
+                                    {
+                                        <p> @item.message </p>
+                                    }
+                                    else
+                                    {
+                                        <p> @item.message </p>
+                                    }
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> @item.date </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="sent_chat content_receive">
+                                <img src="@item.senderImg">
+                                <div class="receive">
+                                    @if (item.type == (int)KhadimiEssa.Enums.AllEnums.FileTypeChat.img)
+                                    {
+                                        @*<p> <img src="@item.message" /> </p>*@
+                                        <p><a data-fancybox="gallery" href="@item.message"><img src="@item.message"></a></p>
+                                    }
+                                    else if (item.type == (int)KhadimiEssa.Enums.AllEnums.FileTypeChat.audio)
+                                    {
+                                        <p>
+                                            <audio controls>
+                                                <source src="@item.message" type="audio/ogg">
+                                                <source src="@item.message" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </p>
+                                    }
+                                    else if (item.type == (int)KhadimiEssa.Enums.AllEnums.FileTypeChat.file)
+                                    {
+                                        <p> @item.message </p>
+                                    }
+                                    else
+                                    {
+                                        <p> @item.message </p>
+                                    }
+                                    <div class="d-flex">
+                                        <span class="font_12"> @item.date </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+
+                <div class="writ_massage">
+
+                    <div class="d-flex">
+
+                        <div class="form d-flex flex-grow-1">
+                            <textarea id="messageInput" class="form-control input-custom-size" type="text" placeholder="اكتب هنا"></textarea>
+                            <button onclick="sendMessage($('#messageInput').val(),@((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.text))" class="" type="button">
+                                ارسال
+                            </button>
+                        </div>
+
+                        <div class="send_sound_chat">
+                            @*<input type="file">*@
+                            <i class="fas fa-microphone" id="recordButton"></i>
+                            <i class="fas fa-times-circle" id="stopButton" hidden></i>
+                            <i class="fas fa-microphone" id="pauseButton" hidden></i>
+                        </div>
+
+                        <div class="send_img_chat">
+                            <input type="file" id="sendimagechat" accept="image/*">
+                            <i class="fa fa-camera" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="the_img_befor_send d-flex">
+                        @*<div id="controls">
+                                <button id="recordButton">Record</button>
+                                <button id="pauseButton" disabled>Pause</button>
+                                <button id="stopButton" disabled>Stop</button>
+                            </div>
+                            <div id="formats">Format: start recording to see sample rate</div>
+                            <p><strong>Recordings:</strong></p>
+                            <ol id="recordingsList"></ol>*@
+                    </div>
+                    <div class="the_record_befor_send d-flex">
+                        <div id="formats" hidden>Format: start recording to see sample rate</div>
+                        <p hidden><strong>Recordings:</strong></p>
+                        <ul id="recordingsList"></ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+
+    <script src="~/Site/recorder/recorder.js"></script>
+    @*<script src="~/Site/recorder/app.js"></script>*@
+
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+
+    <script>
+
+        window.onload = function () {
+
+            $("html, body").animate({ scrollTop: $(".body_chat").offset().top });
+        }
+
+        $(document).ready(function () {
+
+            $(".chat-content").animate({
+                scrollTop: $('.chat-content').prop("scrollHeight")
+            }, 100);
+
+            //$("html").animate({ scrollTop: $(".height_chat").offset().top });
+            //$('.writ_massage .form').on('submit', function (event) {
+            //    event.preventDefault();
+            //    var message = $('.content_sent').first().clone();
+            //    message.find('p').text($('.input-custom-size').val());
+            //    message.appendTo('.chat-content');
+            //    $('.input-custom-size').val('');
+
+            //    $(".chat-content").animate({
+            //        scrollTop: $('.chat-content').prop("scrollHeight")
+            //    }, 1000);
+
+            //});
+
+
+            //$("#sendimagechat").change(function (event) {
+            //    var messageimg = $('.content_sent').first().clone();
+            //    messageimg.find('p').html('<img src="' + URL.createObjectURL(event.target.files[0]) + '">');
+            //    messageimg.appendTo('.chat-content');
+            //    $(".chat-content").animate({
+            //        scrollTop: $('.chat-content').prop("scrollHeight")
+            //    }, 1000);
+
+            //});
+
+        });
+
+
+    </script>
+
+    <script>
+
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+        connection.on("receiveMessage", function (message) {
+
+
+            //debugger;
+            //var html = `
+            //                <div class="sent_chat content_receive">
+            //                    <img src="${message.senderImg}">
+            //                    <div class="receive">
+            //                            <p> ${message.message} </p>
+            //                        <div class="d-flex">
+            //                            <span class="font_12"> ${message.date} </span>
+            //                        </div>
+            //                    </div>
+            //                </div>
+            //            `;
+            //$('.chat-content').append(html);
+            //$(".chat-content").animate({
+            //    scrollTop: $('.chat-content').prop("scrollHeight")
+            //}, 100);
+
+            if (message.orderId == @ViewBag.id) {
+
+                if (message.type == @((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.img)) {
+                    var html = `
+                            <div class="sent_chat content_receive">
+                                <img src="${message.senderImg}">
+                                <div class="sent">
+                                <p><a data-fancybox="gallery" href="${message.message}"><img src="${message.message}"></a></p>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> ${message.date} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    $('.chat-content').append(html);
+                    $(".chat-content").animate({
+                        scrollTop: $('.chat-content').prop("scrollHeight")
+                    }, 100);
+                } else if (message.type == @((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.audio)) {
+
+                    var html = `
+                            <div class="sent_chat content_receive">
+                                <img src="${message.senderImg}">
+                                <div class="sent">
+                                        <p>
+                                            <audio controls>
+                                              <source src="${message.message}" type="audio/ogg">
+                                              <source src="${message.message}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                            </audio>
+                                        </p>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> ${message.date} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                    $('.chat-content').append(html);
+                    $(".chat-content").animate({
+                        scrollTop: $('.chat-content').prop("scrollHeight")
+                    }, 100);
+
+                } else {
+                    var html = `
+                            <div class="sent_chat content_receive">
+                                <img src="${message.senderImg}">
+                                <div class="sent">
+                                        <p> ${message.message} </p>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> ${message.date} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    $('.chat-content').append(html);
+                    $(".chat-content").animate({
+                        scrollTop: $('.chat-content').prop("scrollHeight")
+                    }, 100);
+                }
+            }
+
+
+        });
+
+
+
+
+        connection.start().then(function () {
+
+
+            ////////////////////////////////////////////pst
+
+            connection.invoke("ConnectWeb", "@ViewBag.senderId").catch(function (err) {
+                return console.error(err.toString());
+            });
+
+
+
+        }).catch(function (err) {
+            setTimeout(() => start(), 5000);
+        });
+        connection.onclose(start);
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+
+        $("#sendimagechat").change(function () {
+            emptyAttachments();
+            $(".the_img_befor_send").html('<div class="uploaded-block-chat"><img src="' + URL.createObjectURL(event.target.files[0]) + '"><label class="close"> x </label><button class="btn_send_img"><i class="fas fa-cloud-upload-alt"></i></button></div>');
+        });
+
+
+
+
+
+        // REMOVE IMAGE
+        $('.the_img_befor_send').on('click', '.close', function () {
+            $(this).parents('.uploaded-block-chat').remove();
+            $('#sendimagechat').val('');
+        });
+
+        $('#recordingsList').on('click', '.remove_record', function () {
+            $(this).parents('#recordingsList').empty();
+        });
+
+    $('.the_img_befor_send').on('click', '.fa-cloud-upload-alt', function () {
+        var element = $(this);
+
+        var fd = new FormData();
+        var files = $('#sendimagechat')[0].files;
+
+        // Check file selected or not
+        if (files.length > 0) {
+            fd.append('file', files[0]);
+            $.ajax({
+                url: '@Url.Action("UploadFile","Chat")',
+                type: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.key == 1) {
+                        sendMessage(response.data,@((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.img));
+                    } else {
+                        toastr.error('file not uploaded');
+                    }
+                },
+            });
+
+        }
+    });
+
+
+        function sendMessage(text, type) {
+            if (text == "") {
+                toastr.error("لايوجد محتوى");
+                return false;
+            }
+            //var text = $('#messageInput').val();
+            var duration = document.getElementsByClassName("audiorec")[0] != undefined ? parseInt(document.getElementsByClassName("audiorec")[0].duration) : 0;
+            duration = duration != 0 ? (duration * 1000) : 0;
+
+            $.post("@Url.Action("SendMessage", "Chat")", { ReceiverId: "@ViewBag.receiverId", Text: text, OrderId:@ViewBag.id , Type: type, Duration: duration })
+                .done(function (data) {
+
+                    if (data.key == 1) {
+                        if (type == @((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.img)) {
+                            emptyAttachments();
+                            $('#sendimagechat').val('');
+
+                            var html = `
+                            <div class="sent_chat content_sent">
+                                <img src="${data.data.senderImg}">
+                                <div class="sent">
+                                <p><a data-fancybox="gallery" href="${data.data.message}"><img src="${data.data.message}"></a></p>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> ${data.data.date} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            $('.chat-content').append(html);
+                            $(".chat-content").animate({
+                                scrollTop: $('.chat-content').prop("scrollHeight")
+                            }, 100);
+
+
+                        } else if (type == @((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.audio)) {
+                            emptyAttachments();
+                            var html = `
+                            <div class="sent_chat content_sent">
+                                <img src="${data.data.senderImg}">
+                                <div class="sent">
+                                        <p>
+                                            <audio controls>
+                                              <source src="${data.data.message}" type="audio/ogg">
+                                              <source src="${data.data.message}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                            </audio>
+                                        </p>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> ${data.data.date} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            $('.chat-content').append(html);
+                            $('#messageInput').val('');
+                            $(".chat-content").animate({
+                                scrollTop: $('.chat-content').prop("scrollHeight")
+                            }, 100);
+
+                        } else {
+                            var html = `
+                            <div class="sent_chat content_sent">
+                                <img src="${data.data.senderImg}">
+                                <div class="sent">
+                                        <p> ${data.data.message} </p>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="font_12 M_H_10"> ${data.data.date} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            $('.chat-content').append(html);
+                            $('#messageInput').val('');
+                            $(".chat-content").animate({
+                                scrollTop: $('.chat-content').prop("scrollHeight")
+                            }, 100);
+                        }
+
+                    } else {
+                        console.log(data.msg);
+                    }
+                });
+
+        }
+
+
+
+
+
+
+
+    </script>
+
+
+    <script>
+    ////////////////////////////////////////////////// recored ///////////////////////////////////////////
+    //webkitURL is deprecated but nevertheless
+URL = window.URL || window.webkitURL;
+
+var gumStream; 						//stream from getUserMedia()
+var rec; 							//Recorder.js object
+var input; 							//MediaStreamAudioSourceNode we'll be recording
+
+// shim for AudioContext when it's not avb.
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioContext //audio context to help us record
+
+var recordButton = document.getElementById("recordButton");
+var stopButton = document.getElementById("stopButton");
+var pauseButton = document.getElementById("pauseButton");
+
+//add events to those 2 buttons
+recordButton.addEventListener("click", startRecording);
+stopButton.addEventListener("click", stopRecording);
+pauseButton.addEventListener("click", pauseRecording);
+
+function startRecording() {
+	console.log("recordButton clicked");
+
+	/*
+		Simple constraints object, for more advanced audio features see
+		https://addpipe.com/blog/audio-constraints-getusermedia/
+	*/
+
+    var constraints = { audio: true, video:false }
+
+ 	/*
+    	Disable the record button until we get a success or fail from getUserMedia()
+	*/
+
+	recordButton.hidden = true;
+	stopButton.hidden = false;
+	pauseButton.disabled = false
+
+	/*
+    	We're using the standard promise based getUserMedia()
+    	https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+	*/
+
+	navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+		console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+
+		/*
+			create an audio context after getUserMedia is called
+			sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
+			the sampleRate defaults to the one set in your OS for your playback device
+
+		*/
+		audioContext = new AudioContext();
+
+		//update the format
+		//document.getElementById("formats").innerHTML="Format: 1 channel pcm  "+audioContext.sampleRate/1000+"kHz"
+
+		/*  assign to gumStream for later use  */
+		gumStream = stream;
+
+		/* use the stream */
+		input = audioContext.createMediaStreamSource(stream);
+
+		/*
+			Create the Recorder object and configure to record mono sound (1 channel)
+			Recording 2 channels  will double the file size
+		*/
+		rec = new Recorder(input,{numChannels:1})
+
+		//start the recording process
+        rec.record()
+        //setTimeout(function () {
+        //    stopRecording();
+        //    console.log("stooooooooooooooop");
+        //},60000);
+
+		console.log("Recording started");
+
+	}).catch(function(err) {
+		//enable the record button if getUserMedia() fails
+		recordButton.hidden = false;
+		stopButton.hidden = true;
+		pauseButton.hidden = true
+	});
+}
+
+function pauseRecording(){
+	console.log("pauseButton clicked rec.recording=",rec.recording );
+	if (rec.recording){
+		//pause
+		rec.stop();
+		pauseButton.innerHTML="Resume";
+	}else{
+		//resume
+		rec.record()
+		pauseButton.innerHTML="Pause";
+
+	}
+}
+
+function stopRecording() {
+	console.log("stopButton clicked");
+
+	//disable the stop button, enable the record too allow for new recordings
+	stopButton.hidden = true;
+	recordButton.hidden = false;
+	pauseButton.disabled = true;
+
+	//reset button just in case the recording is stopped while paused
+	pauseButton.innerHTML="Pause";
+
+	//tell the recorder to stop the recording
+	rec.stop();
+
+	//stop microphone access
+	gumStream.getAudioTracks()[0].stop();
+
+	//create the wav blob and pass it on to createDownloadLink
+	rec.exportWAV(createDownloadLink);
+}
+
+function createDownloadLink(blob) {
+
+	var url = URL.createObjectURL(blob);
+    var au = document.createElement('audio');
+    au.classList.add('audiorec');
+    var li = document.createElement('li');
+    li.classList.add('po-R');
+    var libtn = document.createElement('button');
+    libtn.classList.add('remove_record');
+    var libtni = document.createElement('i');
+    libtni.classList.add('fas', 'fa-times');
+
+    libtn.appendChild(libtni);
+    li.appendChild(libtn);
+	//var link = document.createElement('a');
+
+	//name of .wav file to use during upload and download (without extendion)
+    var filename = new Date().toISOString() + ".wav";
+
+	//add controls to the <audio> element
+	au.controls = true;
+	au.src = url;
+
+	//save to disk link
+	//link.href = url;
+	//link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
+	//link.innerHTML = "Save to disk";
+
+	//add the new audio element to li
+	li.appendChild(au);
+
+	//add the filename to the li
+	//li.appendChild(document.createTextNode(filename+".wav "))
+
+	//add the save to disk link to li
+	//li.appendChild(link);
+
+	//upload link
+	//var upload = document.createElement(`<button class="btn_send_img"><i class="fas fa-cloud-upload-alt"></i></button>`);
+	var upload = document.createElement(`button`);
+	upload.classList.add(`btn_send_record`);
+	var uploadi = document.createElement(`i`);
+	uploadi.classList.add('fas',`fa-cloud-upload-alt`);
+	upload.appendChild(uploadi);
+
+	//var upload = document.createElement('a');
+	//upload.href="#";
+	//upload.innerHTML = "Upload";
+    upload.addEventListener("click", function (event) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function (e) {
+            if (this.readyState === 4) {
+                console.log("Server returned: ", e.target.responseText);
+            }
+        };
+        var fd = new FormData();
+        fd.append("file", blob, filename);
+
+        $.ajax({
+            url: '@Url.Action("UploadFile","Chat")',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.key == 1) {
+                    sendMessage(response.data,@((int)KhadimiEssa.Enums.AllEnums.FileTypeChat.audio));
+                } else {
+                    toastr.error('file not uploaded');
+                }
+            },
+        });
+
+    });
+
+    emptyAttachments();
+    $('#sendimagechat').val('');
+    li.appendChild(document.createTextNode(" "))//add a space in between
+	li.appendChild(upload)//add the upload link to li
+
+	//add the li element to the ol
+	recordingsList.appendChild(li);
+        }
+
+        function emptyAttachments() {
+            $("#recordingsList").children('li').remove();
+            $(".the_img_befor_send").empty();
+        }
+    </script>
+
+}

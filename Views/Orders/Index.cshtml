@@ -1,0 +1,380 @@
+﻿@using KhadimiEssa.Enums
+@model IEnumerable<KhadimiEssa.Data.TableDb.Orders>
+
+@{
+    ViewBag.Title = "الطلبات";
+    Layout = "_Layout";
+}
+
+<div class="card-box">
+
+    <h2 class="header-title m-t-0 m-b-30">الطلبات</h2>
+
+
+    <div class="row">
+
+
+        <div class="col-md-4">
+            <div class="form-group">
+
+                <label class="control-label">
+                    تاريخ البداية
+                </label>
+                <input type="date" id="date_from" name="date_from" class="form-control" @*value="@ViewBag.dateFrom"*@ />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">
+                    تاريخ النهاية
+                </label>
+                <input type="date" id="date_to" name="date_to" class="form-control" @*value="@ViewBag.dateTo"*@ />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">
+                    الوقت
+                </label>
+                <select id="time" name="time" class="form-control" asp-items="ViewBag.Times">
+                    <option value="0">- اختر الوقت - </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <a class="btn-new-style btn-rounded" onclick="location.assign('../../Orders/Index?date_from=' + $('#date_from').val() + '&date_to=' + $('#date_to').val() + '&time=' + $('#time').val());">بحث</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div>
+
+        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead style="text-align:center">
+                <tr>
+                    <th>
+                        رقم الطلب
+                    </th>
+
+                    <th>
+                        اسم مقدم الخدمة
+                    </th>
+
+                    <th>
+                        اسم المحطة
+                    </th>
+                     <th>
+                        عدد الكيلومترات
+                    </th>
+
+                    <th>
+                        تكلفة الطلب
+                    </th>
+                    <th>
+                        الكوبون المستخدم 
+                    </th>
+
+                    <th>
+                        حالة الطلب
+                    </th>
+
+                    <th>
+                        حالة الدفع
+                    </th>
+                    <th>
+                        رفض
+                    </th>
+                    <th>
+                        تفاصيل الطلب
+                    </th>
+                    <th>
+                        ارسال اشعار
+                    </th>
+                    <th>
+                        ارسال رسالة
+                    </th>
+                </tr>
+            </thead>
+            <tbody style="text-align:center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Provider.user_Name)
+                        </td>
+
+                        <td>
+                            @{
+                                string StationName = item.OilStation != null ? item.OilStation.NameAr:"لا يوجد";
+                            }
+
+                            @StationName
+                        </td>
+                        
+                        <td>
+                           @item.Kilometers
+                        </td>
+                        
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepositPrice)
+                        </td>
+
+                        <td>
+                            @{
+                                string CoponCode = item.Copon != null ? item.Copon.CoponCode:"لا يوجد";
+                            }
+
+                            @CoponCode
+                        </td>
+
+                        <td>
+                            @if (item.Status == (int)AllEnums.orderstutes.Neworder)
+                            {
+                                <label id="@item.Id" style="color:green;font-size: 17px;">طلب جديد</label>
+                            }
+                            else if (item.Status == (int)AllEnums.orderstutes.CurrentOrder)
+                            {
+                                <label id="@item.Id" style="color: green; font-size: 17px;">طلب حالى</label>
+                            }
+                            else if (item.Status == (int)AllEnums.orderstutes.Refusedorder)
+                            {
+                                <label id="@item.Id" style="color:red;font-size: 17px;">طلب مرفوض</label>
+                            }  
+                            else if (item.Status == (int)AllEnums.orderstutes.Canceledorder)
+                            {
+                                <label id="@item.Id" style="color:red;font-size: 17px;">طلب ملغى</label>
+                            }
+                            else
+                            {
+                                <label id="@item.Id" style="color:red;font-size: 17px;">طلب منتهي</label>
+                            }
+                        </td>
+                        <td>
+                            @if (item.IsPaid)
+                            {
+                                <p>تم الدفع</p>
+                            }
+                            else
+                            {
+                                <p>لم يتم الدفع</p>
+                            }
+                        </td>
+                        @if (item.Status == (int)AllEnums.orderstutes.Neworder)
+                        {
+                            <td>
+                                <input type="button" value="رفض الطلب" onclick="Validation('@item.Id')" class="btn btn-purple btn-rounded" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="button" disabled value="رفض الطلب" onclick="Validation('@item.Id')" class="btn btn-purple btn-rounded" />
+                            </td>
+                        }
+                        <td>
+                            @Html.ActionLink("عرض", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-rounded" })
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-rounded w-md waves-effect waves-light m-0" id="openmodel" data-toggle="modal" data-target="#NotifyModal" onclick="SetId('@item.UserId')">ارسال</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-rounded w-md waves-effect waves-light m-0" id="openmodel" data-toggle="modal" data-target="#SmsModal" onclick="SetId('@item.UserId')">ارسال</button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <!-- -------------------------------------------------------------------------------------------------- -->
+    </div><!-- end row -->
+</div>
+
+<div class="modal fade" id="NotifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ارسال اشعار</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label>
+                        نص الاشعار
+                    </label>
+                    <textarea class="form-control" id="notifyMessage" placeholder="اكتب النص هنا" required></textarea>
+                </div>
+                <div>
+                    <button class=" btn-new-style btn-rounded" id="send" onclick="SendNotify();"> ارسال  </button>
+                    <button type="button" class="btn-black" data-dismiss="modal">اغلاق</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="SmsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ارسال رسالة Sms</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label>
+                        نص الرسالة
+                    </label>
+                    <textarea class="form-control" id="smsMessage" placeholder="اكتب النص هنا" required></textarea>
+                </div>
+
+                <div>
+                    <button class=" btn-new-style btn-rounded" id="send" onclick="SendSms();"> ارسال  </button>
+                    <button type="button" class="btn-black" data-dismiss="modal">اغلاق</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script>
+
+      
+
+        function Validation(id) {
+            $.ajax({
+                url: "/Orders/ChangeState",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+
+                    if (result.key == 1) {
+                        $('#' + id).css('color', 'red');
+                        $('#' + id).html('تم رفض الطلب');
+                    }
+                    else if (result.key == 0) {
+                        $('#' + id).css('color', 'green');
+                        $('#' + id).html('لايمكن رفض هذا الطلب');
+
+                    }
+                },
+                failure: function (info) {
+
+                }
+            });
+        }
+
+        function SetId(id) {
+            $("#RowID").val(id);
+        }
+
+        function SendNotify() {
+            debugger;
+
+            if ($("#notifyMessage").val() == "") {
+                toastr.warning('من فضلك ادخل نص الاشعار');
+                $("#notifyMessage").focus();
+                return false;
+            }
+
+            var employee = $("#RowID").val();
+            var msg = $("#notifyMessage").val();
+
+            Swal.fire({
+                position: 'success',
+                type: 'success',
+                title: 'تم الارسال بنجاح..',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $.ajax({
+                url: "/SendNotification/Send",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    msg: msg,
+                    employees: employee,
+                },
+                success: function (result) {
+                    /*    $("#send").prop("disabled", true);*/
+                    window.location.reload();
+                }
+            });
+
+        }
+
+        
+
+        function SendSms() {
+            debugger;
+
+            if ($("#smsMessage").val() == "") {
+                toastr.warning('من فضلك ادخل نص الرسالة');
+                $("#smsMessage").focus();
+                return false;
+            }
+
+            var client = $("#RowID").val();
+            var msg = $("#smsMessage").val();
+
+            Swal.fire({
+                position: 'success',
+                type: 'success',
+                title: 'تم الارسال بنجاح..',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $.ajax({
+                url: "/SendSmsMessage/SendSms",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    smsMsg: msg,
+                    client: client,
+                },
+                success: function (result) {
+                    /*    $("#send").prop("disabled", true);*/
+                    window.location.reload();
+                }
+            });
+
+        }
+
+
+        
+
+    </script>
+}
+

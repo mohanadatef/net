@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KhadimiEssa</name>
+    </assembly>
+    <members>
+        <member name="P:KhadimiEssa.ApiModels.AddOrderDto.typePay">
+            <summary>
+            1=>cash
+            2=>pocket
+            3=>online
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Models.AuthModel.RegisterDto.lang">
+             <summary>
+            ar or en
+             </summary>
+        </member>
+        <member name="P:KhadimiEssa.Models.AuthModel.RegisterDelegetViewModel.lang">
+             <summary>
+            ar or en
+             </summary>
+        </member>
+        <member name="M:KhadimiEssa.Controllers.Api.AuthApiController.RemoveAccount">
+            <summary>
+            delete account 
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Data.ApplicationDbContext.IntroSettings">
+            <summary>
+            Section IntroductorySite
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Data.TableDb.IntroductorySite.IntroSetting.IntroAr">
+            <summary>
+            Section Intro
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Data.TableDb.IntroductorySite.IntroSetting.AboutAppAr">
+            <summary>
+            Section About App
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Data.TableDb.IntroductorySite.IntroSetting.VideoUrl">
+            <summary>
+            Section Video
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Data.TableDb.IntroductorySite.IntroSetting.FooterDescriptionAr">
+            <summary>
+            Section Footer
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Data.TableDb.IntroductorySite.IntroSetting.PrivacyPolicyAr">
+            <summary>
+            Section Two Pages
+            </summary>
+        </member>
+        <member name="T:KhadimiEssa.Resources.SharedResource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.CheckData">
+            <summary>
+              Looks up a localized string similar to يرجى التاكد من البيانات.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.CodeSent">
+            <summary>
+              Looks up a localized string similar to تم ارسال الكود.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.ConfirmCode">
+            <summary>
+              Looks up a localized string similar to يرجى التحقق من الكود.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to من فضلك تاكد من كلمة المرور.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.ExistEmail">
+            <summary>
+              Looks up a localized string similar to هذا  الايميل موجود بالفعل.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.ExistPhone">
+            <summary>
+              Looks up a localized string similar to هذا الهاتف موجود بالفعل.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.InvalidEmail">
+            <summary>
+              Looks up a localized string similar to يرجى ادخل بريد الكترونى صحيح.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.LengthPassword">
+            <summary>
+              Looks up a localized string similar to يجب الا تقل كلمة المرور عن 6 احرف او ارقام ولا تزيد عن 100.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.LengthPhone">
+            <summary>
+              Looks up a localized string similar to يجب ان يكون ارقام والا يقل رقم الهاتف عن 10 ارقام.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.LockedAdmin">
+            <summary>
+              Looks up a localized string similar to هذا الحساب مغلق من قبل الادمن.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.NotActivated">
+            <summary>
+              Looks up a localized string similar to هذا الحساب لم يفعل بعد.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.NotRegistered">
+            <summary>
+              Looks up a localized string similar to عذرا هذا الهاتف غير مسجل لدينا.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.Passwordchanged">
+            <summary>
+              Looks up a localized string similar to تم تغيير كلمة المرور بنجاح.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.Passwordmatch">
+            <summary>
+              Looks up a localized string similar to كلمة المرور غير مطابقة.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.PhoneIncorrect">
+            <summary>
+              Looks up a localized string similar to رقم الهاتف غير صحيح.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.required">
+            <summary>
+              Looks up a localized string similar to هذا الحقل مطلوب.
+            </summary>
+        </member>
+        <member name="P:KhadimiEssa.Resources.SharedResource.wrong">
+            <summary>
+              Looks up a localized string similar to حدث خطأ ما.
+            </summary>
+        </member>
+    </members>
+</doc>

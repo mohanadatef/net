@@ -1,0 +1,182 @@
+﻿@model IEnumerable<KhadimiEssa.Data.TableDb.Package>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-box">
+    @*<h4 class="header-title m-t-0 m-b-30" style="text-align:center"></h4>*@
+
+    <h2 class="header-title m-t-0 m-b-30">الباقات</h2>
+
+    <div>
+        <p>
+            @Html.ActionLink("اضافة باقه", "Create", "DPackages", null, new { @class = "btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5" })
+        </p>
+        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive " cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>العنوان بالعربية</th>
+                    <th>العنوان بالانجليزية</th>
+                    <th>الوصف بالعربية</th>
+                    <th>الوصف بالانجليزية</th>
+                    <th> السعر </th>
+                    <th> الحالة </th>
+                    <th> تغيير الحاله </th>
+                    <th> تعديل </th>
+                    <th> حذف </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameAr)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameEn)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescriptionAr)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescriptionEn)
+                        </td>
+
+                         <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+
+                        <td>
+                            @{
+                                if (item.IsActive == true)
+                                {
+                                    <label id="@item.Id" style="color:green;font-size: 17px;">مفعل</label>
+                                }
+                                else
+                                {
+                                    <label id="@item.Id" style="color:red;font-size: 17px;">غير مفعل</label>
+                                }
+                            }
+                        </td>
+
+                        <td>
+                            <input type="button" value="تغيير الحالة" onclick="Validation('@item.Id')" class="btn btn-purple btn-rounded" />
+                        </td>
+                        
+                        <td>
+                            @Html.ActionLink("تعديل", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-rounded" })
+                        </td>
+                        <td>
+                            <input type="button" value="حذف" onclick="Delete('@item.Id')" class="btn btn-purple btn-rounded" />
+                        </td>
+                        
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- -------------------------------------------------------------------------------------------------- -->
+    </div><!-- end row -->
+</div>
+
+
+<div class="modal fade" id="PackageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">المشتركين</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="packages-table" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+<script>
+
+    function Validation(id) {
+        $.ajax({
+            url: "/DPackages/ChangeState",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id: id
+            },
+            success: function (result) {
+
+                if (result.data == true) {
+                    $('#' + id).css('color', 'green');
+                    $('#' + id).html('مفعل');
+                   // location.reload();
+                } else if (result.data == false) {
+                    $('#' + id).css('color', 'red');
+                    $('#' + id).html('غير مفعل');
+                   // location.reload();
+                }
+            },
+            failure: function (info) {
+
+            }
+        });
+    }
+
+    function Delete(id) {
+            Swal.fire({
+                title: 'هل انت متاكد من حذف هذا العنصر  ؟',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                cancelButtonText: 'اغلاق',
+                confirmButtonText: 'حذف',
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "/DPackages/Delete",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            id: id
+                        }, success: function (result) {
+                            if (result.data == true) {
+                                toastr.success("تم الحذف بنجاح");
+                                setTimeout(function () {
+                                }, 3000);
+                            }
+                            window.location.reload();
+                        },
+                        failure: function (info) {
+
+                        }
+                    })
+                }
+            })
+        }
+
+   
+</script>
+}
+

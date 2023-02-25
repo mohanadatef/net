@@ -1,0 +1,18 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+
+<div class="new-alert">
+    <img src="~/images/close.png" />
+    <h4>  فشلت عملية الدفع       </h4>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        window.location.assign(window.location.origin + "/Payments/Index");
+    })
+</script>

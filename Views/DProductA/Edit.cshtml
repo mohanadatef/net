@@ -1,0 +1,54 @@
+﻿@model KhadimiEssa.Models.AdvertisementViewModel.EditAdvertisementViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">تعديل</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form enctype="multipart/form-data" asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="IsActive" />
+
+                <div class="form-group">
+                    <label asp-for="TitleAr" class="control-label">العنوان بالعربية</label>
+                    <input asp-for="TitleAr" class="form-control" />
+                    <span asp-validation-for="TitleAr" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TitleEn" class="control-label">العنوان بالانجليزية</label>
+                    <input asp-for="TitleEn" class="form-control" />
+                    <span asp-validation-for="TitleEn" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Img" class="control-label">الصورة القديمة</label>
+                    <div class="col-md-10">
+                        <img src="@Model.Img" style="width:100px; height:100px; " />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImgFormFile" class="control-label">الصورة</label>
+                    <div>
+                        <input asp-for="ImgFormFile" class="form-control" />
+                        <span asp-validation-for="ImgFormFile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn-new-style btn-rounded" />
+                </div>
+                <div>
+                    <a asp-action="Index" class="btn-black">العودة الى الرئيسية</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

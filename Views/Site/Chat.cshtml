@@ -1,0 +1,429 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+
+<style>
+
+
+    .fix_chat {
+        position: relative;
+    }
+
+    .group_chat {
+        flex-basis: 330px;
+        background-color: #FFFFFF;
+        flex-shrink: 0
+    }
+
+    .bar_chat button,
+    .open_chat_mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 35px;
+        height: 35px;
+        color: var(--main)
+    }
+
+    .box_chat_user {
+        border-top: 1px solid var(--gray);
+        cursor: pointer;
+        margin: 0px 5px
+    }
+
+        .box_chat_user.active {
+            background: #EEE
+        }
+
+        .box_chat_user p {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+
+    .height_chat {
+        height: 350px;
+    }
+
+    .over_scroll_chat {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .view_all_chat {
+        position: relative
+    }
+
+    .no_chat {
+        position: absolute;
+        width: calc(100% + 1px);
+        
+        height: 100%;
+        background: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body_chat {
+        border: 1px solid var(--gray)
+    }
+
+    .sent_chat {
+        display: flex;
+        padding: 5px;
+        margin: 5px 0px
+    }
+
+        .sent_chat > div {
+            max-width: 65%;
+            padding: 10px;
+        }
+
+            .sent_chat > div > p {
+                margin-bottom: 10px
+            }
+
+    .content_receive {
+        justify-content: flex-end
+    }
+
+    .sent_chat .receive {
+        border-radius: 0px 10px 10px 10px;
+        background-color: gray;
+        color: #FFFFFF
+    }
+
+    .sent_chat .sent {
+        border-radius: 10px 0px 10px 10px;
+        box-shadow: 3px 3px 3px 1px #EEE,-3px -3px 3px 1px #EEE
+    }
+
+
+    .writ_massage textarea {
+        height: 45px;
+        min-height: 45px;
+    }
+
+    .writ_massage button {
+        width: 50px;
+        height: 45px;
+        background-color: aqua;
+        color: #FFFFFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        margin-right: 5px;
+        border: 2px solid red;
+        border-radius: 10px
+    }
+
+        .writ_massage button:hover {
+            background: #FFFFFF;
+            color: var(--main);
+        }
+
+    .p-10 {
+        padding: 10px;
+    }
+
+    .sec-marg {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .mb-10 {
+        margin-bottom: 10px;
+    }
+
+
+    .form-control {
+        border-radius: 10px;
+        padding: 7px;
+        margin: 10px 0;
+        box-shadow: 0 0 3px #ccc;
+        background: #FAFAFA;
+        height: 50px;
+    }
+
+
+
+
+
+    @@media(max-width:767px) {
+
+        .group_chat {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: 5;
+        }
+
+
+        .open_chat_mobile {
+            display: block !important
+        }
+    }
+</style>
+
+
+
+
+
+<div class="body-content">
+
+    <div class="d-flex sec-marg fix_chat">
+
+        <div class="group_chat padd-5">
+
+            <div class="bar_head_chat mb-10">
+
+                <div class="d-flex align-items-center justify-content-between bar_chat">
+                    <h4 class="main-color">المحادثات</h4>
+                    <button class="border search_chat"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+
+                <form action="" class="" style="display: none;">
+                    <input type="text" placeholder="ابحث عن مستخدم" class="form-control">
+                </form>
+
+            </div>
+
+            <div class="all_chat_user">
+
+                <div class="height_chat over_scroll_chat">
+
+                    <div class="box_chat_user p-10">
+                        <div class="d-flex justify-content-between flex-wrap pb-10">
+                            <h6 class="grey-color">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                البحراوي
+                            </h6>
+                            <span class="grey-color">5/3/2020</span>
+                        </div>
+                        <p class="grey-color">اهلا بك في حراج الشامل يافندم</p>
+                    </div>
+
+                    <div class="box_chat_user p-10">
+                        <div class="d-flex justify-content-between flex-wrap pb-10">
+                            <h6 class="grey-color">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                البحراوي
+                            </h6>
+                            <span class="grey-color">5/3/2020</span>
+                        </div>
+                        <p class="grey-color">اهلا بك في حراج الشامل يافندم</p>
+                    </div>
+
+                    <div class="box_chat_user p-10">
+                        <div class="d-flex justify-content-between flex-wrap pb-10">
+                            <h6 class="grey-color">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                البحراوي
+                            </h6>
+                            <span class="grey-color">5/3/2020</span>
+                        </div>
+                        <p class="grey-color">اهلا بك في حراج الشامل يافندم</p>
+                    </div>
+
+                    <div class="box_chat_user p-10">
+                        <div class="d-flex justify-content-between flex-wrap pb-10">
+                            <h6 class="grey-color">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                البحراوي
+                            </h6>
+                            <span class="grey-color">5/3/2020</span>
+                        </div>
+                        <p class="grey-color">اهلا بك في حراج الشامل يافندم</p>
+                    </div>
+
+                    <div class="box_chat_user p-10">
+                        <div class="d-flex justify-content-between flex-wrap pb-10">
+                            <h6 class="grey-color">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                البحراوي
+                            </h6>
+                            <span class="grey-color">5/3/2020</span>
+                        </div>
+                        <p class="grey-color">اهلا بك في حراج الشامل يافندم</p>
+                    </div>
+
+                    <div class="box_chat_user p-10">
+                        <div class="d-flex justify-content-between flex-wrap pb-10">
+                            <h6 class="grey-color">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                البحراوي
+                            </h6>
+                            <span class="grey-color">5/3/2020</span>
+                        </div>
+                        <p class="grey-color">اهلا بك في حراج الشامل يافندم</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="view_all_chat flex-grow-1">
+
+            <div class="no_chat">
+                <i class="fa fa-comments grey-color font-20" aria-hidden="true"></i>
+                <p class="f-b font-20">قم بإختيار محادثة</p>
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center head_view_chat mb-10">
+
+                <h5 class="main-color f-b">البحراوي</h5>
+                <button class="border open_chat_mobile" data-toggle="tooltip" data-placement="right" title="فتح الشات" style="display: none"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+
+            </div>
+
+
+
+
+
+            <div class="body_chat p-10">
+
+                <div class="chat-content over_scroll_chat height_chat">
+
+                    <div class="sent_chat content_receive">
+                        <div class="receive">
+                            <p>اهلا بك ف موسوعه حراج الشامله</p>
+                            <div class="d-flex">
+                                <span class="font_12">20 : 10 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="sent_chat content_sent">
+                        <div class="sent">
+                            <p>عندنا عرض تلك الايام بخصوص تطبيق شبيه مرسول بيكون 10،000 ريال - اما السورس كود بيكون السعر بالكامل مع الطبيق 35،0000 ريال مع انشاء حسابات سوشيال ميديا وموشن جرافيك دقيقة للتطبيق ممكن تستهدف المندوبين والمستخدمين من خلالهم</p>
+                            <div class="d-flex justify-content-end">
+                                <span class="font_12 M_H_10">20 : 10 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="sent_chat content_receive">
+                        <div class="receive">
+                            <p>اهلا بك ف موسوعه حراج الشامله</p>
+                            <div class="d-flex">
+                                <span class="font_12">20 : 10 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="sent_chat content_sent">
+                        <div class="sent">
+                            <p>عندنا عرض تلك الايام بخصوص تطبيق شبيه مرسول بيكون 10،000 ريال - اما السورس كود بيكون السعر بالكامل مع الطبيق 35،0000 ريال مع انشاء حسابات سوشيال ميديا وموشن جرافيك دقيقة للتطبيق ممكن تستهدف المندوبين والمستخدمين من خلالهم</p>
+                            <div class="d-flex justify-content-end">
+                                <span class="font_12 M_H_10">20 : 10 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="sent_chat content_receive">
+                        <div class="receive">
+                            <p>اهلا بك ف موسوعه حراج الشامله</p>
+                            <div class="d-flex">
+                                <span class="font_12">20 : 10 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="sent_chat content_sent">
+                        <div class="sent">
+                            <p>عندنا عرض تلك الايام بخصوص تطبيق شبيه مرسول بيكون 10،000 ريال - اما السورس كود بيكون السعر بالكامل مع الطبيق 35،0000 ريال مع انشاء حسابات سوشيال ميديا وموشن جرافيك دقيقة للتطبيق ممكن تستهدف المندوبين والمستخدمين من خلالهم</p>
+                            <div class="d-flex justify-content-end">
+                                <span class="font_12 M_H_10">20 : 10 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="writ_massage">
+                    <form action="" class="form d-flex noWrap align-items-center">
+                        <button class="" type="submit">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                        <textarea class="input-custom-size form-control" type="text" placeholder="اكتب هنا"></textarea>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+@section scripts {
+    <script>
+        $(".box_chat_user").on("click", function () {
+
+            $(this).addClass("active").siblings().removeClass("active");
+
+            $(".no_chat").fadeOut();
+
+            $(this).parents(".group_chat").animate({
+                "left": "-150%"
+            }, 300);
+
+        });
+
+
+        $(".open_chat_mobile").on("click", function () {
+
+            $(".group_chat").animate({
+                "left": "0"
+            }, 300);
+
+        });
+
+        $(".bar_chat button").on("click", function () {
+
+            $(this).parents(".bar_head_chat").children("form").slideToggle(100);
+
+        });
+
+        $(".chat-content").animate({
+            scrollTop: $('.chat-content').prop("scrollHeight")
+        }, 1000);
+
+        $('.form').on('submit', function (event) {
+            event.preventDefault();
+            var message = $('.content_sent').first().clone();
+            message.find('p').text($('.input-custom-size').val());
+            message.appendTo('.chat-content');
+            $('input').val('');
+
+            $(".chat-content").animate({
+                scrollTop: $('.chat-content').prop("scrollHeight")
+            }, 1000);
+
+        });
+
+    </script>
+}
+
+

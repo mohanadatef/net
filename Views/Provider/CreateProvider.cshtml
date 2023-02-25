@@ -1,0 +1,70 @@
+﻿@model KhadimiEssa.Models.AuthModel.RegisterDelegetViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اضافة</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="CreateProvider" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="userName" class="control-label"> اسم المستخدم </label>
+                    <input asp-for="userName" class="form-control" />
+                    <span asp-validation-for="userName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="phone" class="control-label"> رقم الجوال</label>
+                    <input asp-for="phone" class="form-control" minlength="9" title="يجب الا يقل رقم الجوال عن 9 ارقام " oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                    <span asp-validation-for="phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Img" class="control-label">الصورة</label>
+                    <input asp-for="Img" class="form-control" />
+                    <span asp-validation-for="Img" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="oilStationId" class="control-label">المحطة</label>
+                    <select asp-for="oilStationId" class="form-control" asp-items="ViewBag.OilStationId">
+                        <option value="0">- اختر المحطة - </option>
+                    </select>
+                    <span asp-validation-for="oilStationId" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="password" class="control-label">الرقم السرى</label>
+                    <input asp-for="password" class="form-control" />
+                    <span asp-validation-for="password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="confirmPassword" class="control-label">تأكيد الرقم السرى</label>
+                    <input asp-for="confirmPassword" class="form-control" />
+                    <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="اضافة" class="btn-new-style btn-rounded" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div>
+                        <a asp-action="Index" class="btn-black">العودة الى الرئيسية</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

@@ -1,0 +1,60 @@
+﻿@model KhadimiEssa.Data.TableDb.AvailableTime
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اضافة </h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <div class="form-group">
+                    <label asp-for="time" class="control-label">الوقت المتاح</label>
+                    <input type="time"  asp-for="time" class="form-control" />
+                    <span asp-validation-for="time" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input value="اضافة" type="button" onclick="Validtion()" class="btn-new-style btn-rounded" />
+                    <input type="submit" id="btnSave" value="اضافة" style="display:none;" class="btn-new-style btn-rounded" />
+                </div>
+
+                <div>
+                    <a asp-action="Index" asp-route-id="@ViewBag.ProviderId" class="btn-black">العودة الى الرئيسية</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        function Validtion() {
+            debugger;
+            var flg = true;
+
+            if ($("#time").val() == "") {
+                toastr.error('من فضلك ادخل الوقت');
+                $("#time").focus();
+                flg = false;
+                return false;
+            }
+
+            if (flg == true) {
+                $("#btnSave").click();
+            }
+        }
+
+
+    </script>
+
+
+}

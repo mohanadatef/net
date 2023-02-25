@@ -1,0 +1,304 @@
+﻿@model IEnumerable<KhadimiEssa.Data.ApplicationDbUser>
+
+@{
+    ViewBag.Title = "المستخدمين";
+    Layout = "_Layout";
+}
+
+
+<div class="card-box">
+
+    <h2 class="header-title m-t-0 m-b-30">العملاء</h2>
+    <input type="hidden" id="RowID" />
+
+    <div>
+
+        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap happyTable" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        الاسم
+                    </th>
+                    <th>
+                        رقم الجوال
+                    </th>
+                    <th>
+                        الصورة الشخصية
+                    </th>
+                    <th>
+                        الحالة
+                    </th>
+                    <th>
+                        تغيير الحالة
+                    </th>
+                    <th>
+                        تاريخ التسجيل
+                    </th>
+                    <th>
+                        المدعوين
+                    </th>
+                    <th>
+                        ارسال اشعار
+                    </th>
+                    <th>
+                        ارسال رسالة
+                    </th>
+                    <th>
+                        حذف  
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody style="text-align:center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.user_Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            <img src="@item.ImgProfile" style="width:100px; height:100px; " />
+                        </td>
+                        <td>
+                            @{
+                                if (item.IsActive == true)
+                                {
+                                    <label id="@item.Id" style="color:green;font-size: 17px;">مفعل</label>
+                                }
+                                else
+                                {
+                                    <label id="@item.Id" style="color:red;font-size: 17px;">غير مفعل</label>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <input type="button" value="تغيير الحالة" onclick="Validation('@item.Id')" class="btn btn-purple btn-rounded" />
+                        </td>
+                        <td>
+                            @item.PublishDate
+                        </td>
+                        <td>
+                            @Html.ActionLink("المدعوين", "Invitions", new { userId = item.Id }, new { @class = "btn btn-info btn-rounded" })
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-rounded w-md waves-effect waves-light m-0" id="openmodel" data-toggle="modal" data-target="#NotifyModal" onclick="SetId('@item.Id')">ارسال</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-rounded w-md waves-effect waves-light m-0" id="openmodel" data-toggle="modal" data-target="#SmsModal" onclick="SetId('@item.Id')">ارسال</button>
+                        </td>
+                         <td>
+                                <input type="button" value="حذف" class="btn btn-danger btn-rounded" id="@item.Id" onclick="Delete('@item.Id')" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- -------------------------------------------------------------------------------------------------- -->
+    </div><!-- end row -->
+</div>
+
+
+<div class="modal fade" id="NotifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ارسال اشعار</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label>
+                        نص الاشعار
+                    </label>
+                    <textarea class="form-control" id="notifyMessage" placeholder="اكتب النص هنا" required></textarea>
+                </div>
+                <div>
+                    <button class=" btn-new-style btn-rounded" id="send" onclick="SendNotify();"> ارسال  </button>
+                    <button type="button" class="btn-black" data-dismiss="modal">اغلاق</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="SmsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ارسال رسالة Sms</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label>
+                        نص الرسالة
+                    </label>
+                    <textarea class="form-control" id="smsMessage" placeholder="اكتب النص هنا" required></textarea>
+                </div>
+
+                <div>
+                    <button class=" btn-new-style btn-rounded" id="send" onclick="SendSms();"> ارسال  </button>
+                    <button type="button" class="btn-black" data-dismiss="modal">اغلاق</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+   
+    <script>
+
+        function Delete(id) {
+            Swal.fire({
+                title: 'هل انت متاكد من حذف هذا العنصر  ؟',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                cancelButtonText: 'اغلاق',
+                confirmButtonText: 'حذف',
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "/Clients/Delete",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            id: id
+                        }, success: function (result) {
+                            if (result.data == true) {
+                                toastr.success("تم الحذف بنجاح");
+                                setTimeout(function () {
+                                }, 3000);
+                            }
+                            window.location.reload();
+                        },
+                        failure: function (info) {
+
+                        }
+                    })
+                }
+            })
+        }
+     
+        function Validation(id) {
+            $.ajax({
+                url: "/Clients/ChangeState",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+
+                    if (result.data == true) {
+                        $('#' + id).css('color', 'green');
+                        $('#' + id).html('مفعل');
+                    } else if (result.data == false) {
+                        $('#' + id).css('color', 'red');
+                        $('#' + id).html('غير مفعل');
+
+                    }
+                },
+                failure: function (info) {
+
+                }
+            });
+        }
+
+        function SetId(id) {
+            $("#RowID").val(id);
+        }
+
+        function SendNotify() {
+            debugger;
+
+            if ($("#notifyMessage").val() == "") {
+                toastr.warning('من فضلك ادخل نص الاشعار');
+                $("#notifyMessage").focus();
+                return false;
+            }
+
+            var employee = $("#RowID").val();
+            var msg = $("#notifyMessage").val();
+
+            Swal.fire({
+                position: 'success',
+                type: 'success',
+                title: 'تم الارسال بنجاح..',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $.ajax({
+                url: "/SendNotification/Send",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    msg: msg,
+                    employees: employee,
+                },
+                success: function (result) {
+                    /*    $("#send").prop("disabled", true);*/
+                    window.location.reload();
+                }
+            });
+
+        }
+
+        
+
+        function SendSms() {
+            debugger;
+
+            if ($("#smsMessage").val() == "") {
+                toastr.warning('من فضلك ادخل نص الرسالة');
+                $("#smsMessage").focus();
+                return false;
+            }
+
+            var client = $("#RowID").val();
+            var msg = $("#smsMessage").val();
+
+            Swal.fire({
+                position: 'success',
+                type: 'success',
+                title: 'تم الارسال بنجاح..',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $.ajax({
+                url: "/SendSmsMessage/SendSms",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    smsMsg: msg,
+                    client: client,
+                },
+                success: function (result) {
+                    /*    $("#send").prop("disabled", true);*/
+                    window.location.reload();
+                }
+            });
+
+        }
+
+    </script>
+}

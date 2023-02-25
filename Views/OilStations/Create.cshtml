@@ -1,0 +1,144 @@
+﻿@model KhadimiEssa.Data.TableDb.OilStation
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اضافة </h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="NameAr" class="control-label">الاسم بالعربية</label>
+                    <input asp-for="NameAr" class="form-control" />
+                    <span asp-validation-for="NameAr" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NameEn" class="control-label">الاسم بالانجليزية</label>
+                    <input asp-for="NameEn" class="form-control" />
+                    <span asp-validation-for="NameEn" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ServiceScope" class="control-label">نطاق الخدمة</label>
+                    <input asp-for="ServiceScope" class="form-control" />
+                    <span asp-validation-for="ServiceScope" class="text-danger"></span>
+                </div>
+
+                 <div class="form-group">
+                    <label asp-for="CountOrderForTime" class="control-label">عدد الطلبات المتاحة لكل وقت </label>
+                    <input asp-for="CountOrderForTime" class="form-control" />
+                    <span asp-validation-for="CountOrderForTime" class="text-danger"></span>
+                </div>
+
+                @* الخريطة *@
+                <input type="hidden" name="Lat" id="Lat" value="@Model.Lat" />
+                <input type="hidden" name="Lng" id="Lng" value="@Model.Lng" />
+
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label">الموقع</label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div id="map" style="width: 100%; height: 300px;margin-top:20px;"> </div>
+
+                <div class="form-group">
+                    <input value="اضافة" type="button" onclick="Validtion()" class="btn-new-style btn-rounded" />
+                    <input type="submit" id="btnSave" value="اضافة" style="display:none;" class="btn-new-style btn-rounded" />
+                </div>
+
+                <div>
+                    <a asp-action="Index" asp-route-id="@ViewBag.ProviderId" class="btn-black">العودة الى الرئيسية</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        var marker;
+            function initMap() {
+                var latlng = new google.maps.LatLng(@Model.Lat, @Model.Lng);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: latlng,
+                    zoom: 16,
+                    disableDefaultUI: true,
+                    animation: google.maps.Animation.DROP,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+
+            }
+
+
+            function Validtion() {
+                debugger;
+                var flg = true;
+
+
+                if ($("#NameAr").val() == "") {
+                    toastr.error('من فضلك ادخل الاسم بالعربية');
+                    $("#NameAr").focus();
+                    flg = false;
+                    return false;
+                }
+
+                if ($("#NameEn").val() == "") {
+                    toastr.error('من فضلك ادخل الاسم بالانجليزية');
+                    $("#NameEn").focus();
+                    flg = false;
+                    return false;
+                }
+                if ($("#ServiceScope").val() == 0) {
+                    toastr.error('من فضلك ادخل نطاق الخدمة');
+                    $("#ServiceScope").focus();
+                    flg = false;
+                    return false;
+                }
+
+
+                if (flg == true) {
+                    $("#btnSave").click();
+                }
+            }
+
+
+    </script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_oSewQNaoaW8F2_WxAC5eFwoeaZYpOHE&callback=initMap&language=ar"></script>
+    <script src="~/js/locationpicker.jquery.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#map').locationpicker({
+                location: {
+                    latitude: @Model.Lat,
+                    longitude: @Model.Lng
+                },
+                //locationName: "",
+                radius: 50,
+                zoom: 15,
+                inputBinding: {
+                    latitudeInput: $("#Lat"),
+                    longitudeInput: $("#Lng"),
+                    locationNameInput: $('#Location')
+                }
+            });
+        });
+
+    </script>
+
+
+}

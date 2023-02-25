@@ -1,0 +1,231 @@
+﻿@model KhadimiEssa.Models.IntroSiteModels.IntroSiteHomeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_IntroSiteLayout.cshtml";
+}
+
+
+<section id="about" class="about-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-12 overflow-hidden">
+                <div class="about-img wow fadeInRight">
+                    <img src="@Model.IntroSetting.AboutAppImg">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 d-flex align-items-center overflow-hidden">
+                <div class="about-text wow fadeInLeft">
+                    <h3>@Model.IntroSetting.AboutApp</h3>
+                    <p>
+                        @Model.IntroSetting.AboutDescrioption
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="how" class="about-app">
+    <div class="container">
+        <h3 class="titl">مميزات التطبيق</h3>
+        <p class="textInfo">يقم التطبيق مجموعة من المميزات و الخدمات لعملائنا</p>
+
+
+        <div class="row">
+            @if (Model.Adventages.Any())
+            {
+                foreach (var item in Model.Adventages)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="howItem wow flipInY">
+                            <div class="icon">
+                                <i class="far fa-star" aria-hidden="true"></i>
+                            </div>
+                            <div class="txt">
+                                <h4 class="mt-3">@item.Title</h4>
+                                <p class="gray">@item.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</section>
+
+<section id="slider" class="appPage mt-5 mb-5">
+    <div class="container">
+        <h3 class="titl">صفحات التطبيق</h3>
+        <p class="textInfo">يقم التطبيق مجموعة من المميزات و الخدمات لعملائنا</p>
+        <div class="firstcarousel owl-carousel owl-theme">
+            @if (Model.Slider.Any())
+            {
+                foreach (var item in Model.Slider)
+                {
+                    <div class="item">
+                        <img src="@item">
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+
+<section class="videos">
+    <div class="container overflow-hidden">
+        <a data-fancybox="gallery" href="@Model.IntroSetting.VideoUrl">
+            <div class="video-display wow fadeInDown">
+                <img src="~/Introassets/images/Design.png">
+                <div class="playIcon">
+                    <i class="fas fa-play"></i>
+                </div>
+                <source src="@Model.IntroSetting.VideoUrl" type="video/mp4">
+            </div>
+        </a>
+    </div>
+</section>
+
+
+<section class="opinion mt-5 mb-5">
+    <div class="container pt-2 pb-4">
+        <h3 class="titl">اراء العملاء</h3>
+        <p class="textInfo">نهتم بجمع تقييمات وآراء عملائنا حيث أننا نعمل على تقديم خدماتنا بأفضل جودة ممكنة</p>
+        <div class="secondcarousel owl-carousel owl-theme mt-5 overflow-hidden">
+
+
+            @if (Model.customerOpinions.Any())
+            {
+                foreach (var item in Model.customerOpinions)
+                {
+                    <div class="item wow fadeInDown">
+                        <p class="gray">
+                            @item.Description
+                        </p>
+                        <div class="client-info">
+                            <img src="@item.Img" alt="">
+                            <div class="info">
+                                <p class="name">@item.Name</p>
+                                <ul class="rate">
+                                    @for (int i = 0; i < item.Rate; i++)
+                                    {
+                                        <li class="rated">
+                                            <i class="fas fa-star gold"></i>
+                                        </li>
+                                    }
+                                    @for (int i = 0; i < 5 - item.Rate; i++)
+                                    {
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+
+
+
+<section id="contact" class="Contact">
+    <div class="container overflow-hidden">
+        <h3 class="titl mb-4">تواصل معنا</h3>
+        <form class="row wow fadeInDown">
+            <div class="col-md-6 col-12">
+                <div class="form_label">
+                    <input type="text" id="Name" class="input_focus" placeholder="الاسم" required="">
+                    <!-- <label class="float_label">الاسم</label> -->
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form_label">
+                    <input type="number" id="Phone" class="input_focus" placeholder="الجوال" required="">
+                    <!-- <label class="float_label">الاسم</label> -->
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form_label">
+                    <input type="email" id="Email" class="input_focus" placeholder="البريد الالكتروني" required="">
+                    <!-- <label class="float_label">الاسم</label> -->
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form_label">
+                    <textarea type="text" id="Msg" class="input_focus areaForm" placeholder="الرساله" required=""></textarea>
+                    <!-- <label class="float_label">الاسم</label> -->
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form_label">
+                    <input type="button" onclick="SendMessage()" name="name" value="ارسال" />
+                    <!-- <label class="float_label">الاسم</label> -->
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        function SendMessage() {
+            var Name = $("#Name").val();
+            var Phone = $("#Phone").val();
+            var Email = $("#Email").val();
+            var Msg = $("#Msg").val();
+
+            $.post('/IntroSite/SendMessage', { Name: Name, Phone: Phone, Email: Email, Msg: Msg }, function (response) {
+
+            });
+        }
+
+             $("#form1").validate({
+            rules: {
+                Name: {
+                    required: true,
+                },
+                Phone: {
+                    required: true,
+                    minlength: 9
+                },
+                Email: {
+                    required: true,
+                    email: true
+                },
+                     Msg: {
+                    required: true,
+                },
+            },
+            @*messages: {
+                Name: {
+                    required: "@Localizer["Please enter company name"]",
+                },
+                Phone: {
+                    required: "@Localizer["Please enter mobile number"]",
+                    minlength: "@Localizer["The phone number should not be less than 10 digits"]"
+                },
+
+                Email: {
+                    required: "@Localizer["Please enter Email Address"]",
+                    email: "@Localizer["Please enter a valid email"]"
+                },
+                WhatsUp: {
+                    required: "@Localizer["Please enter Whatsapp Number"]",
+                    minlength: "@Localizer["The phone number should not be less than 10 digits"]"
+                }
+            }*@
+        });
+    </script>
+}
+
+

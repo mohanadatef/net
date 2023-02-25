@@ -1,0 +1,53 @@
+﻿@model KhadimiEssa.Models.SocialMediaViewModel.EditSocialMediaViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">تعديل</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form enctype="multipart/form-data" asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="IsActive" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">الاسم</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Img" class="control-label">الصورة القديمة</label>
+                    <div>
+                        <img src="@Model.Img" style="width:100px; height:100px; " />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImgFormFile" class="control-label">الصورة</label>
+              
+                        <input asp-for="ImgFormFile" class="form-control" />
+                        <span asp-validation-for="ImgFormFile" class="text-danger"></span>
+                 
+                </div>
+                <div class="form-group">
+                    <label asp-for="Url" class="control-label">الرابط</label>
+                    <input asp-for="Url" class="form-control" />
+                    <span asp-validation-for="Url" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn-new-style btn-rounded" />
+                </div>
+                <div>
+                    <a asp-action="Index" class="btn-black">العودة الى الرئيسية</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,45 @@
+﻿@model KhadimiEssa.Models.AdvertisementViewModel.AddAdvertisementViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-box">
+    <h2 class="header-title m-t-0 m-b-30">اضافة اعلان</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form enctype="multipart/form-data" asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="TitleAr" class="control-label">العنوان بالعربية</label>
+                    <input asp-for="TitleAr" class="form-control" />
+                    <span asp-validation-for="TitleAr" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TitleEn" class="control-label">العنوان بالانجليزية</label>
+                    <input asp-for="TitleEn" class="form-control" />
+                    <span asp-validation-for="TitleEn" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Img" class="control-label">الصورة</label>
+                    <input asp-for="Img" class="form-control" />
+                    <span asp-validation-for="Img" class="text-danger"></span>
+                </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="اضافة" class="btn-new-style btn-rounded" />
+                    </div>
+       
+                    <div>
+                        <a asp-action="Index" class="btn-black">العودة الى الرئيسية</a>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
